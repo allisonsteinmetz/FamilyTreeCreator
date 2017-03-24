@@ -1,5 +1,5 @@
 @charset "utf-8";
-	.headersText
+.inputTitles
 {
 	font-family : Consolas;
 	font-size : 25px;
@@ -15,22 +15,44 @@
 	text-outline : #1B1464;
 	text-outline : rgb(27, 20, 100);
 }
-.buttonText
+.loginBtn
 {
 	font-family : Consolas;
 	font-size : 25px;
 	color : #000000;
 	color : rgb(0, 0, 0);
+	background : #746187;
+	background : rgba(116, 97, 135, 1);
+	border-style : Solid;
+	border-color : #BC98DA;
+	border-color : rgba(188, 152, 218, 1);
+	border-width : 1px;
+	border-radius : 6px;
+	-moz-border-radius : 6px;
+	-webkit-border-radius : 6px;
 }
-.headersText1
+.registerBtn
 {
 	font-family : Consolas;
 	font-size : 25px;
-	color : #B3B3B3;
-	color : rgb(179, 179, 179);
+	color : #000000;
+	color : rgb(0, 0, 0);
+	background : #746187;
+	background : rgba(116, 97, 135, 1);
+	border-style : Solid;
+	border-color : #BC98DA;
+	border-color : rgba(188, 152, 218, 1);
+	border-width : 1px;
+	border-radius : 6px;
+	-moz-border-radius : 6px;
+	-webkit-border-radius : 6px;
 }
-.usernameTxtbox
+.username
 {
+	font-family : Myriad Pro;
+	font-size : 20px;
+	color : #000000;
+	color : rgb(0, 0, 0);
 	background : #CCCCCC;
 	background : rgba(204, 204, 204, 1);
 	border-style : Solid;
@@ -41,14 +63,7 @@
 	-moz-border-radius : 5px;
 	-webkit-border-radius : 5px;
 }
-.buttonText1
-{
-	font-family : Consolas;
-	font-size : 25px;
-	color : #000000;
-	color : rgb(0, 0, 0);
-}
-.center
+.container
 {
 	background : #2F243A;
 	background : rgba(47, 36, 58, 1);
@@ -69,22 +84,12 @@
 	border-color : rgba(188, 152, 218, 1);
 	border-width : 1px;
 }
-.NormalCharacterStyle1
+.password
 {
 	font-family : Myriad Pro;
 	font-size : 20px;
 	color : #000000;
 	color : rgb(0, 0, 0);
-}
-.NormalCharacterStyle
-{
-	font-family : Myriad Pro;
-	font-size : 20px;
-	color : #000000;
-	color : rgb(0, 0, 0);
-}
-.usernameTxtbox_1_
-{
 	background : #CCCCCC;
 	background : rgba(204, 204, 204, 1);
 	border-style : Solid;
@@ -95,27 +100,5 @@
 	-moz-border-radius : 5px;
 	-webkit-border-radius : 5px;
 }
-.loginBtn
-{
-	background : #746187;
-	background : rgba(116, 97, 135, 1);
-	border-style : Solid;
-	border-color : #BC98DA;
-	border-color : rgba(188, 152, 218, 1);
-	border-width : 1px;
-	border-radius : 6px;
-	-moz-border-radius : 6px;
-	-webkit-border-radius : 6px;
-}
-.registerBtn
-{
-	background : #746187;
-	background : rgba(116, 97, 135, 1);
-	border-style : Solid;
-	border-color : #BC98DA;
-	border-color : rgba(188, 152, 218, 1);
-	border-width : 1px;
-	border-radius : 6px;
-	-moz-border-radius : 6px;
-	-webkit-border-radius : 6px;
-}
+
+
