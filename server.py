@@ -1,61 +1,32 @@
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-from os import curdir, sep
+import os
+from flask import Flask, render_template, url_for,  redirect, request, json
+from flask import make_response
 
-HOST_NAME = ""
-PORT_NUMBER = 8000
+app = Flask(__name__)
 
-class myHandler(BaseHTTPRequestHandler):
+loggedIn = False
 
-	# Handle GET request
-	def do_GET(self):
+@app.route('/')
+def home():
+	if loggedIn == False:
+		return redirect(url_for('login'))
+	else:
+		return render_template('home.html')
 
-		# Set the homepage
-		if self.path == "/":
-			self.path = "/login.html";
+@app.route('/login', methods=['GET','POST'])
+def login():
+	if request.method == 'POST':
+		username = request.form['username']
+		password = request.form['pwd']
+		print(username)
+		print(password)
+		# check username and password combo with database here!
+		# if confirmed set loggedIn to true and redirect to home
+		global loggedIn
+		loggedIn = True
+		return redirect(url_for('home'))
+	else:
+		return render_template('login.html')
 
-		# Set content-type of return
-		if self.path.endswith(".html"):
-			mimeType = "text/html"
-		elif self.path.endswith(".jpg"):
-			mimeType = "image/jpg"
-		elif self.path.endswith(".gif"):
-			mimeType = "image/gif"
-		elif self.path.endswith(".txt"):
-			mimeType = "text/plain"
-		elif self.path.endswith(".json"):
-			mimeType = "application/json"
-		elif self.path.endswith(".js"):
-			mimeType = "application/javascript"
-		elif self.path.endswith(".css"):
-			mimeType = "text/css"
-		else:
-			mimeType = "text/plain" # for unknown types
-
-		try:
-			# Open the requested file
-			f = open(curdir + sep + self.path, 'rb')
-			# The request is okay
-			self.send_response(200);
-			# Set header
-			self.send_header('Content-type',mimeType)
-			self.end_headers()
-			# Send the request file
-			self.wfile.write(f.read())
-			# Close the request file
-			f.close()
-		except IOError:
-			# Handle bad request
-			self.send_error(404)
-
-try:
-	# Create a web server and define the handler to manage the
-    # incoming request
-	server = HTTPServer((HOST_NAME, PORT_NUMBER), myHandler)
-	print("Start http server on port ", PORT_NUMBER)
-
-	# Keep server running forever
-	server.serve_forever()
-except KeyboardInterrupt:
-	# Use default ctr+c to close the server
-    print ('^C received, shutting down the web server')
-    server.socket.close()
+if __name__ == '__main__':
+    app.run(debug=False, port = 8000)
