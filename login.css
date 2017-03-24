@@ -1,0 +1,74 @@
+html{
+  background: #ACA0B7;
+}
+.title
+{
+  font-family : High Tower;
+	font-size : 40px;
+	color : #2F243A;
+	text-outline : #1B1464;
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 0%;
+}
+.inputTitles
+{
+  font-family : Consolas, monaco, monospace;
+	font-size : 25px;
+	color : #B3B3B3;
+}
+.container{
+    width: 500px;
+    height: 400px;
+    text-align: center;
+    background : #2F243A;
+    border: solid;
+    border-color : #BC98DA;
+    border-width : 1px;
+  	border-radius : 6px;
+    -moz-border-radius : 6px;
+  	-webkit-border-radius : 6px;
+    margin: 0 auto;
+    margin-top: 1%;
+}
+.loginBtn
+{
+	background : #746187;
+	border-style : Solid;
+	border-color : #BC98DA;
+	border-width : 1px;
+	border-radius : 6px;
+	-moz-border-radius : 6px;
+	-webkit-border-radius : 6px;
+  font-family : Consolas, monaco, monospace;
+	font-size : 25px;
+  margin-right: 2%;
+}
+.registerBtn
+{
+	background : #746187;
+	border-style : Solid;
+	border-color : #BC98DA;
+	border-width : 1px;
+	border-radius : 6px;
+	-moz-border-radius : 6px;
+	-webkit-border-radius : 6px;
+  font-family : Consolas, monaco, monospace;
+	font-size : 25px;
+}
+
+.inputText
+{
+	border-style : Solid;
+	border-color : #000000;
+	border-width : 1px;
+	border-radius : 5px;
+	-moz-border-radius : 5px;
+	-webkit-border-radius : 5px;
+  font-size: 22px;
+}
+
+.loginForm{
+  padding-top: 25%;
+  padding-bottom: 25%;
+}
