@@ -11,7 +11,7 @@
 	border-style : Solid;
 	border-color : #BC98DA;
 	border-color : rgba(188, 152, 218, 1);
-	border-width : 1px;
+	border-width : 1px
 	margin: 10px;
 }
 .titleText
@@ -116,6 +116,13 @@ a:link{
 	text-decoration: none;
 }
 a:hover{
+	font-family : Consolas;
+	font-size : 25px;
+	color : #999999;
+	color : rgb(153, 153, 153);
+	text-decoration: none;
+}
+a:visited{
 	font-family : Consolas;
 	font-size : 25px;
 	color : #999999;
