@@ -5,25 +5,29 @@ from flask import make_response
 app = Flask(__name__)
 
 loggedIn = False
+username = ''
 
 @app.route('/')
 def home():
 	if loggedIn == False:
 		return redirect(url_for('login'))
 	else:
-		return render_template('home.html')
+		return render_template('controlpanel.html', name=username)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
 	if request.method == 'POST':
-		username = request.form['username']
+		email = request.form['email']
 		password = request.form['pwd']
-		print(username)
+		print(email)
 		print(password)
-		# check username and password combo with database here!
-		# if confirmed set loggedIn to true and redirect to home
+		# check email and password combo with database here!
+		# if confirmed set loggedIn to true, retrieve username and redirect to home
 		global loggedIn
 		loggedIn = True
+		global username
+		username = 'allisonsteinmetz'
+		#
 		return redirect(url_for('home'))
 	else:
 		return render_template('login.html')
