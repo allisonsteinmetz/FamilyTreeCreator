@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        body {
+  font: 10px sans-serif;
+}
+
+.linage {
+  fill: none;
+  stroke: #000;
+}
+
+.marriage {
+  fill: none;
+  stroke: black;
+}
+
+.man {
+  background-color: lightblue;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.woman {
+  background-color: pink;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.emphasis {
+  font-style: italic;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+}
+
+    </style>
+</head>
+<body>
+  <h1>Demo</h1>
+  <div id="graph"></div>
+  
+  <script src="https://cdn.rawgit.com/ErikGartner/dTree/2.0.0/dist/dTree.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+
+  <script>
+    treeData = [{
+  "name": "Niclas Superlongsurname",
+  "class": "man",
+  "textClass": "emphasis",
+  "marriages": [{
+    "spouse": {
+      "name": "Iliana",
+      "class": "woman"
+    },
+    "children": [{
+      "name": "James",
+      "class": "man",
+      "marriages": [{
+        "spouse": {
+          "name": "Alexandra",
+          "class": "woman"
+        },
+        "children": [{
+          "name": "Eric",
+          "class": "man",
+          "marriages": [{
+            "spouse": {
+              "name": "Eva",
+              "class": "woman"
+            }
+          }]
+        }, {
+          "name": "Jane",
+          "class": "woman"
+        }, {
+          "name": "Jasper",
+          "class": "man"
+        }, {
+          "name": "Emma",
+          "class": "woman"
+        }, {
+          "name": "Julia",
+          "class": "woman"
+        }, {
+          "name": "Jessica",
+          "class": "woman"
+        }]
+      }]
+    }]
+  }]
+}]
+
+
+
+dTree.init(treeData, {
+  target: "#graph",
+  debug: true,
+  height: 800,
+  width: 1200,
+  callbacks: {
+    nodeClick: function(name, extra) {
+      console.log(name);
+    }
+  }
+});
+
+  </script>
+</body>
+
+</html>
