@@ -1,19 +1,27 @@
 @charset "utf-8";
+
+HTML
+{
+	background : #2F243A;
+	background : rgba(47, 36, 58, 1);
+}
+
 .inputTitles
 {
 	font-family : Consolas;
 	font-size : 25px;
-	color : #B3B3B3;
 	color : rgb(179, 179, 179);
+	margin:20px;
 }
 .titleText
 {
 	font-family : High Tower Text;
 	font-size : 40px;
-	color : #333333;
-	color : rgb(51, 51, 51);
-	text-outline : #1B1464;
+	color : rgb(179, 179, 179);
 	text-outline : rgb(27, 20, 100);
+	margin:auto;
+	padding:15px;
+	text-align: center;
 }
 .loginBtn
 {
@@ -28,6 +36,7 @@
 	border-color : rgba(188, 152, 218, 1);
 	border-width : 1px;
 	border-radius : 6px;
+	margin:20px;
 	-moz-border-radius : 6px;
 	-webkit-border-radius : 6px;
 }
@@ -65,15 +74,13 @@
 }
 .container
 {
-	background : #2F243A;
-	background : rgba(47, 36, 58, 1);
+	background : #595062;
+	background : rgba(89, 80, 98, 1);
 	border-style : Solid;
 	border-color : #BC98DA;
 	border-color : rgba(188, 152, 218, 1);
-	border-width : 1px;
-	border-radius : 6px;
-	-moz-border-radius : 6px;
-	-webkit-border-radius : 6px;
+	border-width : 1px
+	margin: 10px;
 }
 .background
 {
@@ -100,5 +107,3 @@
 	-moz-border-radius : 5px;
 	-webkit-border-radius : 5px;
 }
-
-
