@@ -13,6 +13,10 @@ HTML
 	color : rgb(179, 179, 179);
 	margin:20px;
 }
+.inputText
+{
+	font-size: 25px;
+}
 .titleText
 {
 	font-family : High Tower Text;
