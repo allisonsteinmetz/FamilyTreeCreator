@@ -4,11 +4,7 @@
 	background-image : url(dropDown_1_.png);
 	background-repeat : no-repeat;
 }
-HTML
-{
-	background : #2F243A;
-	background : rgba(47, 36, 58, 1);
-}
+
 .headerContainer
 {
 	background : #595062;
