@@ -5,22 +5,37 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="/static/controlpanel.css">
-        <script>
-            function register() {}
-        </script>
+        <script></script>
     </head>
     <body>
         <div class="headerContainer">
-            <h1 class="titleText">Welcome Back {{ name }}!</h1>
-            </div>
-            <div class="container">
-                <div class="dropdownContainer">
-                    <h2 class="titleText">Your Treehouses</h2>
+            <h1 class="titleText">Welcome Back
+                {{ name }}!</h1>
+        </div>
+        <div class="body">
+            <div class="dropdownContainer">
+                <div class="dropdown">
+                    <p class="titleText">Your Treehouses</p>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#">
+                                <span class="caret">Tree</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <button class="shareBtn" onclick="share">Share Treehouse</button>
-                <button class="removeBtn" onclick="remove">Remove Treehouse</button>
-                <button class="addBtn" onclick="add">Add Treehouse</button>
-                <button class="logoutBtn" onclick="logout">Logout</button>
             </div>
-        </body>
-    </html>
+            <div class="buttonContainer">
+                <button class="Btn" onclick="share()">Share Treehouse</button><br>
+                <button class="Btn" onclick="remove()">Remove Treehouse</button><br>
+                <button class="Btn" onclick="add()">Add Treehouse</button><br>
+                <button class="Btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        function addTolist() {
+            $("#header ul").append('<li><a href="#"><span class="caret">Tree</span></a></li>');
+        }
+    </script>
+</html>

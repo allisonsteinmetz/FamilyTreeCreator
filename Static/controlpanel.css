@@ -11,7 +11,8 @@
 	border-style : Solid;
 	border-color : #BC98DA;
 	border-color : rgba(188, 152, 218, 1);
-	border-width : 1px;
+	border-width : 1px
+	margin: 10px;
 }
 .titleText
 {
@@ -19,34 +20,37 @@
 	font-size : 25px;
 	color : #B3B3B3;
 	color : rgb(179, 179, 179);
+	text-align: center;
+	padding: 10px;
 }
-.container
+HTML{
+	background : #2F243A;
+	background : rgba(47, 36, 58, 1);
+}
+.body
 {
+	overflow: auto;
 	background : #595062;
 	background : rgba(89, 80, 98, 1);
 	border-style : Solid;
 	border-color : #BC98DA;
 	border-color : rgba(188, 152, 218, 1);
 	border-width : 1px;
+	margin: 10px;
+	padding: 10px;
 }
-.removeBtn
+.buttonContainer
 {
-	font-family : Consolas;
-	font-size : 25px;
-	color : #000000;
-	color : rgb(0, 0, 0);
-	background : #746187;
-	background : rgba(116, 97, 135, 1);
-	border-style : Solid;
-	border-color : #BC98DA;
-	border-color : rgba(188, 152, 218, 1);
-	border-width : 1px;
-	border-radius : 9px;
-	-moz-border-radius : 9px;
-	-webkit-border-radius : 9px;
+	float: right;
+	width: 40%;
+	position: static;
+	margin: 10px;
+	padding: 10px;
 }
 .dropdownContainer
 {
+	width: 40%;
+	float: left;
 	background : #2F243A;
 	background : rgba(47, 36, 58, 1);
 	border-style : Solid;
@@ -56,6 +60,9 @@
 	border-radius : 5px;
 	-moz-border-radius : 5px;
 	-webkit-border-radius : 5px;
+	position: static;
+	margin: 10px;
+	padding: 10px;
 }
 .usernamePanel
 {
@@ -69,25 +76,11 @@
 	-moz-border-radius : 2px;
 	-webkit-border-radius : 2px;
 }
-.logoutBtn
-{
-	font-family : Consolas;
-	font-size : 25px;
-	color : #000000;
-	color : rgb(0, 0, 0);
-	background : #746187;
-	background : rgba(116, 97, 135, 1);
-	border-style : Solid;
-	border-color : #BC98DA;
-	border-color : rgba(188, 152, 218, 1);
-	border-width : 1px;
-	border-radius : 5px;
-	-moz-border-radius : 5px;
-	-webkit-border-radius : 5px;
-}
 
-.addBtn
+.Btn
 {
+	margin: 10px;
+	padding: 10px;
 	font-family : Consolas;
 	font-size : 25px;
 	color : #000000;
@@ -114,27 +107,24 @@
 	-moz-border-radius : 2px;
 	-webkit-border-radius : 2px;
 }
-.subHeadersText
-{
+a:link{
 	font-family : Consolas;
 	font-size : 25px;
 	color : #999999;
 	color : rgb(153, 153, 153);
+	text-decoration: none;
 }
-.dropDown
-{
-	background-image : url(dropDown.png);
-	background-repeat : no-repeat;
+a:hover{
+	font-family : Consolas;
+	font-size : 25px;
+	color : #999999;
+	color : rgb(153, 153, 153);
+	text-decoration: none;
 }
-.shareBtn
-{
-	background : #746187;
-	background : rgba(116, 97, 135, 1);
-	border-style : Solid;
-	border-color : #BC98DA;
-	border-color : rgba(188, 152, 218, 1);
-	border-width : 1px;
-	border-radius : 9px;
-	-moz-border-radius : 9px;
-	-webkit-border-radius : 9px;
+a:visited{
+	font-family : Consolas;
+	font-size : 25px;
+	color : #999999;
+	color : rgb(153, 153, 153);
+	text-decoration: none;
 }

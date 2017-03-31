@@ -27,7 +27,7 @@ def login():
 		loggedIn = True
 		global username
 		username = 'allisonsteinmetz'
-		#
+		#-----------
 		return redirect(url_for('home'))
 	else:
 		return render_template('login.html')

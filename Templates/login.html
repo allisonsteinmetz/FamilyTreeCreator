@@ -7,18 +7,67 @@
         <link rel="stylesheet" type="text/css" href="/static/login.css">
     </head>
     <body>
-      <h1 class="title">Family Tree Creator</h1>
+        <h1 class="title">Family Tree Creator</h1>
         <div class="container">
             <form id="login" method="post" class="loginForm">
-                <label class="inputTitles">Email:</label>
-                <input type="text" placeholder="Email" id="email" class="inputText" name="email"/>
+                <label class="inputTitles" style="margin-left: 10%">Email:</label>
+                <input type="email" placeholder="Email" id="email" class="inputText" name="email"/>
                 <br><br>
                 <label class="inputTitles">Password:</label>
                 <input type="password" placeholder="Password" id="pwd" class="inputText" name="pwd"/>
                 <br><br>
                 <input type="submit" class="loginBtn" value="Login" id="button"/>
-                <button class="registerBtn" onclick="register">Register</button>
+                <button class="registerBtn" id="myBtn">Register</button>
             </form>
         </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 style="font-family : Consolas, monaco, monospace;">Create a Family Tree Account</h2>
+                <form>
+                  <label class="registerInputTitles" style="margin-left:6%">Email:</label>
+                  <input type="email" name="email" class="registerInputText" placeholder="Email">
+                  <br><br>
+                  <label class="registerInputTitles">Username:</label>
+                  <input type="text" name="email" class="registerInputText" placeholder="Username">
+                  <br><br>
+                  <label class="registerInputTitles">Password:</label>
+                  <input type="password" name="email" class="registerInputText" placeholder="Password">
+                  <br><br>
+                  <label class="registerInputTitles">Re-enter Password:</label>
+                  <input type="password" name="email" class="registerInputText" style="width:53%"placeholder="Password">
+                  <br><br>
+                  <input type="submit" class="loginBtn" style="font-size:16px; margin: 0 auto;" value="Create Account" id="button"/>
+                </form>
+            </div>
+        </div>
     </body>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function() {
+          event.preventDefault();
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </html>
