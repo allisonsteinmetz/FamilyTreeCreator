@@ -1,4 +1,3 @@
-import os
 from flask import Flask, render_template, url_for,  redirect, request, json
 from flask import make_response
 
@@ -7,8 +6,15 @@ app = Flask(__name__)
 loggedIn = False
 username = ''
 
+import os
+import mysql.connector
+
 @app.route('/')
 def home():
+	# database connection
+	cnx = mysql.connector.connect(user='asantana048', password='Team2login!',
+                              host='test.cxyuwmmq4ydn.us-west-2.rds.amazonaws.com',
+                              database='testdb')
 	if loggedIn == False:
 		return redirect(url_for('login'))
 	else:
