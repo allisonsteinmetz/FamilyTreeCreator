@@ -7,38 +7,30 @@
      	<link rel="stylesheet" type="text/css" href="regions_update.css">
 </head>
 <body>
-    	<div class="panel">
-       		<h1 class="titleText">{{ familyName }}</h1> 
+  <div class="panel">
+    <h1 class="titleText">{{ familyName }}</h1>
 		<div>
 			<button class="Btn" onclick="controlPanel()">Control Panel</button>
 			<button class="Btn" onclick="logout()">Logout</button>
 		</div>
-    	</div>
+  </div>
 
-    	<div class="center">
-		<div class="dropdownContainer">
-			<div class="dropdown">
-				<p class="titleText">Your Treehouses</p>
-				<ul class="dropdown-menu">
-					<li><a href="#"><span class="caret">Tree</span></a></li>
-				</ul>
-			</div>
-		</div>
+  <div class="center">
+    <div class="treePanel">
+    	<img id="temp" src="family_tree.jpg" height="600px"></img>
+    </div>
+  </div>
 
-    		<div class="treeContainer">
-        		<img id="temp" src="family_tree.jpg" width="800px" height="600px"></img>
-    		</div>
-	</div>
 	<div class="footer">
     		<div class="footerPanel">
-			<div id="buttonContainer">
-				<button class="Btn" onclick="add()">Add</button>
-				<button class="Btn" onclick="edit()">Edit</button>
-        			<button class="Btn" onclick="remove()">Remove</button>
-				<button class="Btn" onclick="share()">Share</button>
-			<button class="Btn" onclick="download()">Download</button>
-		</div>
-	</div>
+          <div id="buttonContainer">
+              <button class="Btn" onclick="add()">Add</button>
+              <button class="Btn" onclick="edit()">Edit</button>
+              <button class="Btn" onclick="remove()">Remove</button>
+              <button class="Btn" onclick="share()">Share</button>
+              <button class="Btn" onclick="download()">Download</button>
+		      </div>
+	     </div>
     </div>
 </body>
 </html>

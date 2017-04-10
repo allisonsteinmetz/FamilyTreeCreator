@@ -34,9 +34,9 @@
 }
 .center
 {
-	margin: auto;
 	position: relative;
 }
+
 .footerPanel
 {
 	background : #393345;
@@ -48,6 +48,7 @@
 	border-radius : 2px;
 	-moz-border-radius : 2px;
 	-webkit-border-radius : 2px;
+	text-align: center;
 	positon: absolute;
 	bottom: 0;
 }
@@ -64,34 +65,27 @@ HTML{
 	text-align: center;
 	padding: 10px;
 }
+
 #buttonContainer
 {
-	width: 50%;
+	display: block;
 	margin: auto;
 }
-.treeContainer
+.treePanel
 {
-	float: right;
-	margin: 10px;
-	padding: 10px;
-}
-.dropdownContainer
-{
-	width: 30%;
-	float: left;
-	background : #2F243A;
-	background : rgba(47, 36, 58, 1);
+	width: 100%;
+
 	border-style : Solid;
-	border-color : #BC98DA;
-	border-color : rgba(188, 152, 218, 1);
+	border-color : #A096A8;
+	border-color : rgba(160, 150, 168, 1);
 	border-width : 1px;
-	border-radius : 5px;
-	-moz-border-radius : 5px;
-	-webkit-border-radius : 5px;
-	position: static;
-	margin: 10px;
-	padding: 10px;
+	border-radius : 2px;
+	-moz-border-radius : 2px;
+	-webkit-border-radius : 2px;
+	positon: absolute;
+	bottom: 0;
 }
+
 a:link{
 	font-family : Consolas;
 	font-size : 25px;
