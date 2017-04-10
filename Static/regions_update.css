@@ -19,10 +19,8 @@
 .panel
 {
 	background : #393345;
-	background : rgba(57, 51, 69, 1);
 	border-style : Solid;
 	border-color : #A096A8;
-	border-color : rgba(160, 150, 168, 1);
 	border-width : 1px;
 	border-radius : 2px;
 	-moz-border-radius : 2px;
@@ -54,14 +52,12 @@
 }
 HTML{
 	background : #2F243A;
-	background : rgba(47, 36, 58, 1);
 }
 .titleText
 {
 	font-family : Consolas;
 	font-size : 25px;
 	color : #B3B3B3;
-	color : rgb(179, 179, 179);
 	text-align: center;
 	padding: 10px;
 }

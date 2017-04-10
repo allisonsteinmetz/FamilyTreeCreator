@@ -10,11 +10,8 @@ import os
 import mysql.connector
 
 @app.route('/')
-def home():
+def controlpanel():
 	# database connection
-	cnx = mysql.connector.connect(user='asantana048', password='Team2login!',
-                              host='test.cxyuwmmq4ydn.us-west-2.rds.amazonaws.com',
-                              database='testdb')
 	if loggedIn == False:
 		return redirect(url_for('login'))
 	else:
@@ -34,9 +31,13 @@ def login():
 		global username
 		username = 'allisonsteinmetz'
 		#-----------
-		return redirect(url_for('home'))
+		return redirect(url_for('controlpanel'))
 	else:
 		return render_template('login.html')
+
+@app.route('/tree')
+def tree():
+	return render_template('regions_update.html')
 
 if __name__ == '__main__':
     app.run(debug=False, port = 8000)
