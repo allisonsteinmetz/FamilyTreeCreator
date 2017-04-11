@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import errorcode
+import json
 
 # MySQL database connection class
 class TreeSQL:
@@ -34,11 +35,11 @@ class TreeSQL:
             self.cursor = self.cnx.cursor(buffered=True)
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print("Something is wrong with your user name or password")
+                print "Something is wrong with your user name or password."
             elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                print("Database does not exist")
+                print "Database does not exist."
             else:
-                print(err)
+                print err
 
     # End the connection to the database
     def disconnect(self):
@@ -50,30 +51,76 @@ class TreeSQL:
         self.cursor.execute(statement)
         self.cnx.commit()
 
+
     # Drop a table
     def drop(self, table_name):
         sql_string = "DROP TABLE IF EXISTS %s" % table_name
         self.exec_change(sql_string)
 
-    ### Account table methods
 
-    # Select all entries in account
+    ##### Account table methods
+
+    # Create new Account
+    def insert_account(self, email, password):
+        try:
+            sql_string = "INSERT INTO Account (email, password) VALUES ('%s','%s')" % (email, password)
+            self.exec_change(sql_string)
+        except mysql.connector.Error as err:
+            print err
+
+    # Select all entries in Account
     def select_account(self):
         self.cursor.execute("SELECT * FROM Account")
         for (email, username, password) in self.cursor:
             print "%s, %s, %s" % (email, username, password)
 
-    ### Treelist table methods
+
+    ##### Treelist table methods
+
+    # Insert an entry in Treelist
+    def insert_treehouse(self, email, treeName):
+        try:
+            sql_string = "INSERT INTO Treelist (email, treeName) VALUES ('%s', '%s')" % (email, treeName)
+            self.exec_change(sql_string)
+
+            sql_string = "SELECT treeID FROM Treelist WHERE email = '%s' AND treeName = '%s'" % (email, treeName)
+            for treeID in self.cursor:
+                create_family(treeName, treeID)
+
+        except mysql.connector.Error as err:
+            print err
+
+    # Select family table names
+    def select_families_for_account(self, email):
+        sql_string = "SELECT treeName FROM Treelist WHERE email = '%s'" % email
+        self.cursor.execute(sql_string);
+
+        families = []
+        for (treeName) in self.cursor:
+            families.append(treeName)
+
+        return families
 
 
-    ### Family table methods
+    ##### Family table methods
+
+    # Drop a family table
+    def drop_family(self, family_name, family_id):
+        table_name = str(family_name) + str(family_id)
+        self.drop(table_name)
+
+    # Select all from family
+    def select_family(self, familyName):
+        self.cursor.execute("SELECT * FROM %s" % familyName)
+        for (personID, motherID, fatherID, name, gender) in self.cursor:
+            print "%s, %s, %s, %s, %s" % (personID, motherID, fatherID, name, gender)
 
     # Create a family table
     def create_family(self, family_name, family_id):
         table_name = str(family_name) + str(family_id)
         sql_string = (
             "CREATE TABLE %s("
-            "personID INT NOT NULL AUTOINCREMENT,"
+            "personID INT NOT NULL AUTO_INCREMENT,"
             "motherID INT,"
             "fatherID INT,"
             "name VARCHAR(50) NOT NULL,"
@@ -83,8 +130,6 @@ class TreeSQL:
         ) % table_name.lower()
         self.exec_change(sql_string)
 
-    # Drop a family table
-    def drop_family(self, family_name, family_id):
-        table_name = str(family_name) + str(family_id)
-        self.drop(table_name)
-    #
+    # Insert into
+    #def insert_node(self, family_name, pid, mid, fid, )
+    #    sql_string = "INSERT INTO "
