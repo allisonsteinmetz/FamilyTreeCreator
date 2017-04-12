@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="/static/login.css">
+        <link rel="stylesheet" type="text/css" href="/static/modal.css">
     </head>
     <body>
         <h1 class="title">Family Tree Creator</h1>
@@ -35,9 +36,9 @@
                   <input type="password" name="password" class="registerInputText" placeholder="Password">
                   <br><br>
                   <label class="registerInputTitles">Re-enter Password:</label>
-                  <input type="password" name="repassword" class="registerInputText" style="width:53%"placeholder="Password">
+                  <input type="password" name="repassword" class="registerInputText" style="width:53%" placeholder="Password">
                   <br><br>
-                  <input type="submit" class="loginBtn" style="font-size:16px; margin: 0 auto;" value="Create Account" id="button"/>
+                  <input type="submit" class="loginBtn modal-button" value="Create Account" id="button"/>
                 </form>
             </div>
         </div>
@@ -55,7 +56,7 @@
         // When the user clicks the button, open the modal
         btn.onclick = function() {
           event.preventDefault();
-            modal.style.display = "block";
+          modal.style.display = "block";
         }
 
         // When the user clicks on <span> (x), close the modal
