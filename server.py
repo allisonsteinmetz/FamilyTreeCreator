@@ -1,13 +1,14 @@
+import os
 from flask import Flask, render_template, url_for,  redirect, request, json
 from flask import make_response
+from treehouse import TreeSQL
 
 app = Flask(__name__)
 
 loggedIn = False
 username = ''
-
-import os
-import mysql.connector
+database = TreeSQL()
+database.connect()
 
 @app.route('/')
 def controlpanel():
@@ -22,17 +23,31 @@ def login():
 	if request.method == 'POST':
 		email = request.form['email']
 		password = request.form['pwd']
-		print(email)
-		print(password)
-		# check email and password combo with database here!
-		# if confirmed set loggedIn to true, retrieve username and redirect to home
-		global loggedIn
-		loggedIn = True
-		global username
-		username = 'allisonsteinmetz'
-		#-----------
-		return redirect(url_for('controlpanel'))
+		response = database.select_account(email, password)
+		if(response != False):
+			global loggedIn
+			loggedIn = True
+			global username
+			username = response
+			return redirect(url_for('controlpanel'))
+		else:
+			print("Username and password do not match")
+			return render_template('login.html')
 	else:
+		return render_template('login.html')
+
+@app.route('/register', methods=['GET','POST'])
+def register():
+	if request.method == 'POST':
+		email = request.form['email']
+		username = request.form['username']
+		password = request.form['password']
+		repassword = request.form['repassword']
+		if(password == repassword):
+			database.insert_account(email, username, password)
+			print("registered")
+		else:
+			print("error: retry password")
 		return render_template('login.html')
 
 @app.route('/tree')

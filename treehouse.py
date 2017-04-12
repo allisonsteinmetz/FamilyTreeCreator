@@ -68,16 +68,18 @@ class TreeSQL:
         elif len(args)== 3:
             sql_string = "INSERT INTO Account (email, username, password) VALUES ('%s','%s', '%s')" % (args[0], args[1], args[2])
 
-        try:      
+        try:
             self.exec_change(sql_string)
         except mysql.connector.Error as err:
             print err
 
     # Select all entries in Account
-    def select_account(self):
+    def select_account(self, enteredEmail, enteredPassword):
         self.cursor.execute("SELECT * FROM Account")
         for (email, username, password) in self.cursor:
-            print "%s, %s, %s" % (email, username, password)
+            if(enteredEmail == email and enteredPassword == password):
+                return username
+        return False
 
 
     ##### Treelist table methods

@@ -9,7 +9,7 @@
     <body>
         <h1 class="title">Family Tree Creator</h1>
         <div class="container">
-            <form id="login" method="post" class="loginForm">
+            <form id="login" action="/login" method="post" class="loginForm">
                 <label class="inputTitles" style="margin-left: 10%">Email:</label>
                 <input type="email" placeholder="Email" id="email" class="inputText" name="email"/>
                 <br><br>
@@ -24,18 +24,18 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 style="font-family : Consolas, monaco, monospace;">Create a Family Tree Account</h2>
-                <form>
+                <form action="/register" method="post">
                   <label class="registerInputTitles" style="margin-left:6%">Email:</label>
                   <input type="email" name="email" class="registerInputText" placeholder="Email">
                   <br><br>
                   <label class="registerInputTitles">Username:</label>
-                  <input type="text" name="email" class="registerInputText" placeholder="Username">
+                  <input type="text" name="username" class="registerInputText" placeholder="Username">
                   <br><br>
                   <label class="registerInputTitles">Password:</label>
-                  <input type="password" name="email" class="registerInputText" placeholder="Password">
+                  <input type="password" name="password" class="registerInputText" placeholder="Password">
                   <br><br>
                   <label class="registerInputTitles">Re-enter Password:</label>
-                  <input type="password" name="email" class="registerInputText" style="width:53%"placeholder="Password">
+                  <input type="password" name="repassword" class="registerInputText" style="width:53%"placeholder="Password">
                   <br><br>
                   <input type="submit" class="loginBtn" style="font-size:16px; margin: 0 auto;" value="Create Account" id="button"/>
                 </form>

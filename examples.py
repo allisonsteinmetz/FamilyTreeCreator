@@ -21,6 +21,3 @@ a.select_families_for_account("admin")
 
 # Call at the end of use
 a.disconnect()
-
-
-
