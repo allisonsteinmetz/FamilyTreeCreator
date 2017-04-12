@@ -61,9 +61,14 @@ class TreeSQL:
     ##### Account table methods
 
     # Create new Account
-    def insert_account(self, email, password):
-        try:
-            sql_string = "INSERT INTO Account (email, password) VALUES ('%s','%s')" % (email, password)
+    def insert_account(self, *args):
+        sql_string = ""
+        if len(args) == 2:
+            sql_string = "INSERT INTO Account (email, password) VALUES ('%s','%s')" % (args[0], args[1])
+        elif len(args)== 3:
+            sql_string = "INSERT INTO Account (email, username, password) VALUES ('%s','%s', '%s')" % (args[0], args[1], args[2])
+
+        try:      
             self.exec_change(sql_string)
         except mysql.connector.Error as err:
             print err
