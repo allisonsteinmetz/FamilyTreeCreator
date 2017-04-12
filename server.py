@@ -52,7 +52,7 @@ def register():
 
 @app.route('/tree')
 def tree():
-	return render_template('regions_update.html')
+	return render_template('regions_modal_included.html')
 
 if __name__ == '__main__':
     app.run(debug=False, port = 8000)
