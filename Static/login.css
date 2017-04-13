@@ -37,7 +37,6 @@ html{
     margin: 0 auto;
     margin-top: 1%;
 }
-
 .loginBtn
 {
 	background : #746187;
@@ -74,7 +73,6 @@ html{
 	-webkit-border-radius : 5px;
   font-size: 22px;
 }
-
 .registerInputText
 {
 	border-style : Solid;

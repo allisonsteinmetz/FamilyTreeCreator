@@ -47,11 +47,8 @@ def register():
 		password = request.form['password']
 		repassword = request.form['repassword']
 		if(password == repassword):
-			if (database.select_account(email, password) == False):
-				database.insert_account(email, username, password)
-				print("registered")
-			else:
-				print("error: user already exists")
+			database.insert_account(email, username, password)
+			print("registered")
 		else:
 			print("error: retry password")
 		return render_template('login.html')
