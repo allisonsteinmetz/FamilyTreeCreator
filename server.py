@@ -61,7 +61,6 @@ def tree():
 def addTree():
 	if request.method == 'POST':
 		treeName = request.form['treeName']
-		print(treeName)
 		database.insert_treehouse(email, treeName)
 		return redirect(url_for('controlpanel'))
 

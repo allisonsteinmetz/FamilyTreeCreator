@@ -104,7 +104,7 @@ class TreeSQL:
 
         families = []
         for (treeName) in self.cursor:
-            print(str(treeName))
+            treeName = treeName[0]
             families.append(treeName)
         return families
 

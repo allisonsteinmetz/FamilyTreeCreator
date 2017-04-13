@@ -17,11 +17,13 @@
                 <div class="dropdown">
                     <p class="titleText">Your Treehouses</p>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">
-                                <span class="caret">{{ families[0] }}</span>
-                            </a>
-                        </li>
+                        {% for family in families %}
+                            <li>
+                                <a href="#">
+                                    <span class="caret">{{ family }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
