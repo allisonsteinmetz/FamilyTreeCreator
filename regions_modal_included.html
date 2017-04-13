@@ -4,67 +4,116 @@
         <title>Family Tree Creator</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-     	<link rel="stylesheet" type="text/css" href="/static/regions_update.css">
-</head>
-<body>
-  <div class="panel">
-    <h1 class="titleText">{{ familyName }}</h1>
-		<div>
-			<button class="Btn" onclick="controlPanel()">Control Panel</button>
-			<button class="Btn" onclick="logout()">Logout</button>
-		</div>
-  </div>
+        <link rel="stylesheet" type="text/css" href="regions_update.css">     <!-- CHANGE BACK TO /static/ -->
+    </head>
+    <body>
+    <div id="wrapper">
+        <div class="panel">
+            <h1 class="titleText">{{ familyName }}</h1>
+            <div>
+                <button class="Btn" onclick="controlPanel()">Control Panel</button>
+                <button class="Btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
 
-  <div class="center">
-    <div class="treePanel">
-    	<img id="temp" src="family_tree.jpg" height="600px"></img>
-    </div>
-  </div>
+        <div class="center">
+            <div class="treePanel">
 
-	<div class="footer">
-    		<div class="footerPanel">
-          <div id="buttonContainer">
-              <button class="Btn" onclick="add()">Add</button>
-              <button class="Btn" onclick="edit()">Edit</button>
-              <button class="Btn" onclick="remove()">Remove</button>
-              <button class="Btn" onclick="share()">Share</button>
-              <button class="Btn" onclick="download()">Download</button>
-		      </div>
-	     </div>
-    </div>
- <div id="myModal" class="modal">
+                <div id="graph"></div>                <!-- if we can get the footer stuck to bottom, no need for height-->
+            </div>
+        </div>
+
+
+          <div class="footerPanel">
+              <div id="buttonContainer">
+                  <button id="addBtn" class="Btn" onclick="add()">Add</button>
+                  <button class="Btn" onclick="edit()">Edit</button>
+                  <button class="Btn" onclick="remove()">Remove</button>
+                  <button class="Btn" onclick="share()">Share</button>
+                  <button class="Btn" onclick="download()">Download</button>
+              </div>
+          </div>
+      </div>
+
+
+        <div id="myModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
                 <form>
-                  <br><br>
-                  <label class="registerInputTitles">This entry is a:</label>
-                  <select>
-			<option value="Child">Child</option>
-			<option value="Parent">Parent</option>
-		  </select>
-                  <br><br>
-                  <label class="registerInputTitles">Name:</label>
-                  <input type="name" name="entryType" class="registerInputText" placeholder="Name">
-                  <br><br>
-                  <label class="registerInputTitles">Birthdate:</label>
-                  <input type="birthdate" name="entryType" class="registerInputText" style="width:53%"placeholder="MM/DD/YYYY">
-                  <br><br><button class="Btn" onclick="selectParent()">Select Other Parent</button>
-		  <br><br><button class="Btn" onclick="addEntry()">Add Entry</button>
-		</form>
+                    <br><br>
+                    <label class="registerInputTitles">This entry is a:</label>
+                    <select>
+                        <option value="Child">Child</option>
+                        <option value="Parent">Parent</option>
+                    </select>
+                    <br><br>
+                    <label class="registerInputTitles">Name:</label>
+                    <input type="name" name="entryType" class="registerInputText" placeholder="Name">
+                    <br><br>
+                    <label class="registerInputTitles">Birthdate:</label>
+                    <input type="birthdate" name="entryType" class="registerInputText" style="width:53%" placeholder="MM/DD/YYYY">
+
+                    <br><br>
+                    <label class="registerInputTitles">Parent1:</label>
+                    <select>
+                        <option value="Child">Child</option>
+                    </select>
+                    <br><br>
+                    <label class="registerInputTitles">Parent2:</label>
+                    <select></select>
+                    <br><br>
+                    <button class="Btn" onclick="addEntry()">Add Entry</button>
+                </form>
             </div>
         </div>
-</body>
- <script>
+
+    </body>
+
+  <script src="https://cdn.rawgit.com/ErikGartner/dTree/2.0.0/dist/dTree.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <script>
+
+
+    //Change the content of treedata to request SQL data before loading.
+    //Function of the add button will refresh the page after updating database.
+    //Tree Data and initialization function
+      treeData = 
+      [{ name: "Father", "class": "man",    "textClass": "nodeText", marriages: 
+          [{"spouse": { "name": "Mother", "class": "woman",},"children": 
+              [{  "name": "Child", "class": "man",
+              }]
+          }]
+      }]
+
+      treeData.name = "new";
+
+      dTree.init(treeData, {
+        target: "#graph",
+        debug: true,
+        height: 800,
+        width: 1200,
+        callbacks: {
+          nodeClick: function(name, extra) {
+            console.log(name);
+          }
+        }
+
+      });
+
+
+
         // Get the modal
         var modal = document.getElementById('myModal');
         // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
+        var btn = document.getElementById("addBtn");
         // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
         // When the user clicks the button, open the modal
         btn.onclick = function() {
-          event.preventDefault();
+            event.preventDefault();
             modal.style.display = "block";
         }
         // When the user clicks on <span> (x), close the modal
