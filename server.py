@@ -53,9 +53,9 @@ def register():
 			print("error: retry password")
 		return render_template('login.html')
 
-@app.route('/tree')
-def tree():
-	return render_template('regions_modal_included.html')
+@app.route('/<family>')
+def tree(family):
+	return render_template('regions_modal_included.html', familyName = family)
 
 @app.route('/addTree', methods=['POST'])
 def addTree():
