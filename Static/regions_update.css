@@ -1,3 +1,4 @@
+
 .Btn
 {
 	margin: 10px;
@@ -26,33 +27,40 @@
 	-moz-border-radius : 2px;
 	-webkit-border-radius : 2px;
 }
-.footer
-{
-	position: relative;
-}
+
 .center
 {
 	position: relative;
 }
-
 .footerPanel
 {
-	background : #393345;
 	background : rgba(57, 51, 69, 1);
 	border-style : Solid;
-	border-color : #A096A8;
 	border-color : rgba(160, 150, 168, 1);
 	border-width : 1px;
 	border-radius : 2px;
 	-moz-border-radius : 2px;
 	-webkit-border-radius : 2px;
+
 	text-align: center;
-	positon: absolute;
+	position: absolute;
 	bottom: 0;
+	right: 0;
+	left: 0;
+
 }
-HTML{
+
+html, body
+{
+	height: 100%;
 	background : #2F243A;
 }
+#wrapper
+{
+	height: 100%;
+}
+
+
 .titleText
 {
 	font-family : Consolas;
@@ -111,19 +119,6 @@ a:visited{
   color : #B3B3B3;
 }
 
-.btn
-{
-	background : #746187;
-	border-style : Solid;
-	border-color : #BC98DA;
-	border-width : 1px;
-	border-radius : 6px;
-	-moz-border-radius : 6px;
-	-webkit-border-radius : 6px;
-  font-family : Consolas, monaco, monospace;
-	font-size : 25px;
-  margin-right: 2%;
-}
 
 .registerInputText
 {
@@ -136,8 +131,6 @@ a:visited{
   font-size: 14px;
   width: 70%;
 }
-
-/*-------------*/
 
 /* The Modal (background) */
 .modal {
@@ -177,4 +170,38 @@ a:visited{
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+
+/* Style for the tree*/
+.linage {
+  fill: none;
+  stroke: #000;
+}
+
+.marriage {
+  fill: none;
+  stroke: black;
+}
+
+.man {
+  background-color: lightblue;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.woman {
+  background-color: pink;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.emphasis {
+  font-style: italic;
+}
+
+p {
+  padding: 0;
+  margin: 0;
 }
