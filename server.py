@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 loggedIn = False
 username = ''
+email = ''
 database = TreeSQL()
 database.connect()
 
@@ -16,11 +17,13 @@ def controlpanel():
 	if loggedIn == False:
 		return redirect(url_for('login'))
 	else:
-		return render_template('controlpanel.html', name=username)
+		fams = database.select_families_for_account(email)
+		return render_template('controlpanel.html', name=username, families = fams)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
 	if request.method == 'POST':
+		global email
 		email = request.form['email']
 		password = request.form['pwd']
 		response = database.select_account(email, password)
@@ -53,6 +56,14 @@ def register():
 @app.route('/tree')
 def tree():
 	return render_template('regions_modal_included.html')
+
+@app.route('/addTree', methods=['POST'])
+def addTree():
+	if request.method == 'POST':
+		treeName = request.form['treeName']
+		print(treeName)
+		database.insert_treehouse(email, treeName)
+		return redirect(url_for('controlpanel'))
 
 if __name__ == '__main__':
     app.run(debug=False, port = 8000)
