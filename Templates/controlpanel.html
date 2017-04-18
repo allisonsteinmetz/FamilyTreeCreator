@@ -21,7 +21,7 @@
                         {% for family in families %}
                             <li>
                                 <a href="{{ family }}">
-                                    <span class="caret">{{ familyname }}</span>
+                                    <span class="caret">{{ family }}</span>
                                 </a>
                             </li>
                         {% endfor %}
@@ -102,7 +102,7 @@
                 type: 'POST',
                 success: function(response) {
                   console.log("logout")
-                  window.location = "/"; 
+                  window.location = "/";
                 },
                 error: function(error) {
                     console.log(error);

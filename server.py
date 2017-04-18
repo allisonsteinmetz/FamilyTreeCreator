@@ -62,7 +62,7 @@ def logout():
 
 @app.route('/<family>')
 def tree(family):
-	return render_template('regions_modal_included.html', familyName = family)
+	return render_template('regions.html', familyName = family)
 
 @app.route('/addTree', methods=['POST'])
 def addTree():

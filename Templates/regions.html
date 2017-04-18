@@ -5,12 +5,17 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="/static/regions_update.css">
-	<link rel="stylesheet" type="text/css" href="/static/ModelBox.css">
+        <link rel="stylesheet" type="text/css" href="/static/ModelBox.css">
+        <script src="static/regions.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     </head>
     <body>
         <div class="panel">
-            <h1 class="titleText">{{ familyName }}</h1>
-            <div>
+            <div class="buttonsDiv"></div>
+            <div id="titleDiv">
+                <h1 class="titleText">{{ familyName }}</h1>
+            </div>
+            <div class="buttonsDiv">
                 <button class="Btn" onclick="controlPanel()">Control Panel</button>
                 <button class="Btn" onclick="logout()">Logout</button>
             </div>
@@ -26,8 +31,8 @@
             <div class="footerPanel">
                 <div id="buttonContainer">
                     <button id="addBtn" class="Btn" onclick="add()">Add</button>
-                    <button class="Btn" onclick="edit()">Edit</button>
-                    <button class="Btn" onclick="remove()">Remove</button>
+                    <button id="editBtn" class="Btn" onclick="edit()">Edit</button>
+                    <button id="removeBtn" class="Btn" onclick="remove()">Remove</button>
                     <button class="Btn" onclick="download()">Download</button>
                 </div>
             </div>
@@ -59,10 +64,10 @@
                 </form>
             </div>
         </div>
- 	<div id="removeModal" class="modal">
+        <div id="removeModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-	 <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
+                <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
                 <form action="/removeNode" method="post">
                     <br>
                     <label class="registerInputTitles">Name:</label>
@@ -74,45 +79,43 @@
         </div>
     </body>
     <script>
+      //add modal
         var modal = document.getElementsByClassName("modal")[0];
         var addBtn = document.getElementById("addBtn");
         var addSpan = document.getElementsByClassName("close")[0];
-
-        // When the user clicks the button, open the modal
         addBtn.onclick = function() {
             event.preventDefault();
             modal.style.display = "block";
         }
-        // When the user clicks on <span> (x), close the modal
         addSpan.onclick = function() {
             modal.style.display = "none";
         }
-        // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
-	var editBtn = document.getElementById("editBtn");
-	var editSpan = document.getElementsByClassName("close")[1];
-	editBtn.onclick = function() {
+
+        // edit modal
+        var editBtn = document.getElementById("editBtn");
+        var editSpan = document.getElementsByClassName("close")[0];
+        editBtn.onclick = function() {
             event.preventDefault();
-	modal = document.getElementsByClassName("modal")[1];
+            modal = document.getElementsByClassName("modal")[0];
             modal.style.display = "block";
         }
-	// When the user clicks on <span> (x), close the modal
         editSpan.onclick = function() {
             modal.style.display = "none";
         }
+
+        //remove modal
         var removeBtn = document.getElementById("removeBtn");
-        var removeSpan = document.getElementsByClassName("close")[2];
-        // When the user clicks the button, open the modal
+        var removeSpan = document.getElementsByClassName("close")[1];
         removeBtn.onclick = function() {
             event.preventDefault();
-            modal = document.getElementsByClassName("modal")[2];
+            modal = document.getElementsByClassName("modal")[1];
             modal.style.display = "block";
         }
-        // When the user clicks on <span> (x), close the modal
         removeSpan.onclick = function() {
             modal.style.display = "none";
         }
