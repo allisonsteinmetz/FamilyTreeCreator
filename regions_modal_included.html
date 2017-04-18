@@ -123,14 +123,14 @@
             familyTreeString.append(the root node's marriage);
 
             //only makes recursive call if spouse is female
-            if (node == male)
+            if (node.gender == "m")
             {
                 constructTree(spouseNode)
             }  
         }
 
-        search database for children
-        if (children == true && node.gender == "f")
+        //adds children to string. Recursively calls function on each child node.
+        if (node.children != NULL && node.gender == "f")
         {
             for (each child of rootNode)
             {
