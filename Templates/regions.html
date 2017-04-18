@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>{{ familyName }}</title>
+        <title>Family Tree Creator</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="/static/regions_update.css">
@@ -9,11 +9,8 @@
     </head>
     <body>
         <div class="panel">
-            <div class="buttonsDiv"></div>
-            <div id="titleDiv">
-                <h1 class="titleText">{{ familyName }}</h1>
-            </div>
-            <div class="buttonsDiv">
+            <h1 class="titleText">{{ familyName }}</h1>
+            <div>
                 <button class="Btn" onclick="controlPanel()">Control Panel</button>
                 <button class="Btn" onclick="logout()">Logout</button>
             </div>
@@ -39,7 +36,7 @@
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2 style="font-family : Consolas, monaco, monospace;">The {{ familyName }}</h2>
+                <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
                 <form>
                     <br><br>
                     <label class="registerInputTitles">This entry is a:</label>
@@ -50,10 +47,6 @@
                     <br><br>
                     <label class="registerInputTitles">Name:</label>
                     <input type="name" name="entryType" class="registerInputText" placeholder="Name">
-                    <br><br>
-                    <label class="registerInputTitles">Birthdate:</label>
-                    <input type="birthdate" name="entryType" class="registerInputText" style="width:53%" placeholder="MM/DD/YYYY">
-
                     <br><br>
                     <label class="registerInputTitles">Parent1:</label>
                     <select>
@@ -70,7 +63,7 @@
  	<div id="removeModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-	 <h2 style="font-family : Consolas, monaco, monospace;">The {{ familyName }}</h2>
+	 <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
                 <form action="/removeNode" method="post">
                     <br>
                     <label class="registerInputTitles">Name:</label>
