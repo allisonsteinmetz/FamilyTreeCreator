@@ -120,23 +120,27 @@
             get name of spouse
             familyTreeString.append(the root node's marriage);
 
-            search database for children
-            if (child == true)
+            //only makes recursive call if spouse is female
+            if (node == male)
+            {
+                constructTree(spouseNode)
+            }
+
+
+            
+        }
+
+        search database for children
+        if (children == true && node.gender == "f")
+        {
             for (each child of rootNode)
             {
                 familyTreeString.append(child to root node);
                 constructTree(child);
             }
         }
-        
-        //Check if single parent has child
-        if (children == true && spouseName == "")
-        for (each child of rootNode)
-        {
-            familyTreeString.append(child to root node);
-            constructTree(child)
-        }
 
+        //clears global variable familyTreeString for next use
         string tempString = familyTreeString;
         familyTreeString = "";
         return tempString;
