@@ -77,6 +77,73 @@
     <script>
 
 
+        
+/*
+    //psuedocode for constructing tree
+
+    struct nodeStruct
+    {
+        string name;
+        string spouseName;
+        string children;
+        string fatherName;
+        string motherName;
+        string gender;
+    }
+
+    int main()
+    {
+        nodeStruct node = getRootNode();
+        constructTree(node);
+    }
+
+    jsonObject getRootNode()
+    {
+        //iterate through each row of database/returned json object
+        for (each row in database)
+        {
+            if (fatherName == "" && motherName == "" && gender == "f")
+            {
+                return this node;
+            }
+        }
+    }    
+    
+    //global variable
+    string familyTreeString = "";
+    
+    //recursive function that manipulates global variable;
+    string constructTree(node)
+    {
+        if (node.spouseName != "")
+        {
+            get name of spouse
+            familyTreeString.append(the root node's marriage);
+
+            search database for children
+            if (child == true)
+            for (each child of rootNode)
+            {
+                familyTreeString.append(child to root node);
+                constructTree(child);
+            }
+        }
+        
+        //Check if single parent has child
+        if (children == true && spouseName == "")
+        for (each child of rootNode)
+        {
+            familyTreeString.append(child to root node);
+            constructTree(child)
+        }
+
+        string tempString = familyTreeString;
+        familyTreeString = "";
+        return tempString;
+    }
+*/
+        
+        
     //Change the content of treedata to request SQL data before loading.
     //Function of the add button will refresh the page after updating database.
     //Tree Data and initialization function
