@@ -93,7 +93,6 @@
         string name;
         string spouseName;
         string children[];
-        string fatherName;
         string motherName;
         string gender;
     }
@@ -128,7 +127,10 @@
     {
         if (node == globalRootNode)
         {
-            append relevant info to familyTreeString;
+            append globalRootNode info to familyTreeString;
+            //resets globalRootNode
+            globalRootNode = NULL;
+
         }
 
         if (node.spouseName != "")
