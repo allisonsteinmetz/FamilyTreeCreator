@@ -103,6 +103,8 @@
         nodeStruct rootNode = getRootNode();
         JSON final-tree = constructTree(rootNode);
     }
+    
+    nodeStruct globalRootNode;
 
     //returns parentless female node at top of tree
     jsonObject getRootNode()
@@ -112,6 +114,7 @@
         {
             if (fatherName == "" && motherName == "" && gender == "f")
             {
+                globalRootNode = this node;
                 return this node;
             }
         }
@@ -123,7 +126,7 @@
     //recursive function that manipulates global variable;
     string constructTree(node)
     {
-        if (node is the root node)
+        if (node == globalRootNode)
         {
             append relevant info to familyTreeString;
         }
