@@ -81,35 +81,38 @@ class TreeSQL:
                 return username
         return False
 
+    # Select a username from an email
+    def select_username(self, email):
+        sql_string = "SELECT userName FROM Account WHERE email = '%s'" % email
+        self.cursor.execute(sql_string)
+        for user in self.cursor:
+            return user[0]
+        return False
+
 
     ##### Treelist table methods
 
     # Insert an entry in Treelist
     def insert_treehouse(self, email, treeName):
-        if (self.test_family(treeName) == False):
-            return
         try:
             sql_string = "INSERT INTO Treelist (email, treeName) VALUES ('%s', '%s')" % (email, treeName)
             self.exec_change(sql_string)
-
-            sql_string = "SELECT treeID FROM Treelist WHERE email = '%s' AND treeName = '%s'" % (email, treeName)
-            self.exec_change(sql_string)
-            for treeID in self.cursor:
-                self.create_family(treeName, treeID[0])
+            self.create_family(get_family_name(email, treeName))
 
         except mysql.connector.Error as err:
             print err
 
     # Remove an entry from Treelist
     def delete_treehouse(self, email, treeName):
-        treeID = None
-        sql_string = "SELECT treeID FROM Treelist WHERE email = '%s' AND treeName = '%s'" % (email, treeName)
-        self.exec_change(sql_string)
-        for treeID in self.cursor:
-            treeID
         sql_string = "DELETE FROM Treelist WHERE email = '%s' AND treeName = '%s'" % (email, treeName)
+        self.drop(get_family_name(email, treeName))
         self.exec_change(sql_string)
 
+    def get_family_name(self, email, treeName):
+        if (self.select_username != False)
+            return self.select_username(email) + "_" +  treeName
+        else
+            return ""
 
     # Select family table names
     def select_families_for_account(self, email):
@@ -127,18 +130,18 @@ class TreeSQL:
 
     # See if syntax is correct for family
     def test_family(self, family_name):
-        if (self.create_family(family_name, "") == True):
-            self.drop_family(family_name, "")
+        if (self.create_family(family_name) == True):
+            self.drop_family(family_name)
             return True
         return False
 
     # Drop a family table
-    def drop_family(self,  family_name, family_id):
+    def drop_family(self,  family_name):
         table_name = str(family_name)
         self.drop(table_name)
 
     # Select all from family
-    def select_family(self, familyName, family_id):
+    def select_family(self, familyName):
         self.cursor.execute("SELECT * FROM %s" % familyName)
         return cursor.fetchall()
 
@@ -161,6 +164,6 @@ class TreeSQL:
             return False
         return True
 
-    # Insert into
-    #def insert_node(self, family_name, pid, mid, fid, )
-    #    sql_string = "INSERT INTO "
+    def insert_person(self, family_name, name, gender):
+        sql_string = "INSERT INTO %s(name, gender) VALUES ('%s', '%s') "
+        self.exec_change(insert_person)
