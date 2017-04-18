@@ -86,16 +86,30 @@ class TreeSQL:
 
     # Insert an entry in Treelist
     def insert_treehouse(self, email, treeName):
+        if (self.test_family(treeName) == False):
+            return
         try:
             sql_string = "INSERT INTO Treelist (email, treeName) VALUES ('%s', '%s')" % (email, treeName)
             self.exec_change(sql_string)
 
             sql_string = "SELECT treeID FROM Treelist WHERE email = '%s' AND treeName = '%s'" % (email, treeName)
+            self.exec_change(sql_string)
             for treeID in self.cursor:
-                create_family(treeName, treeID)
+                self.create_family(treeName, treeID[0])
 
         except mysql.connector.Error as err:
             print err
+
+    # Remove an entry from Treelist
+    def delete_treehouse(self, email, treeName):
+        treeID = None
+        sql_string = "SELECT treeID FROM Treelist WHERE email = '%s' AND treeName = '%s'" % (email, treeName)
+        self.exec_change(sql_string)
+        for treeID in self.cursor:
+            treeID
+        sql_string = "DELETE FROM Treelist WHERE email = '%s' AND treeName = '%s'" % (email, treeName)
+        self.exec_change(sql_string)
+
 
     # Select family table names
     def select_families_for_account(self, email):
@@ -111,16 +125,22 @@ class TreeSQL:
 
     ##### Family table methods
 
+    # See if syntax is correct for family
+    def test_family(self, family_name):
+        if (self.create_family(family_name, "") == True):
+            self.drop_family(family_name, "")
+            return True
+        return False
+
     # Drop a family table
-    def drop_family(self, family_name, family_id):
-        table_name = str(family_name) + str(family_id)
+    def drop_family(self,  family_name, family_id):
+        table_name = str(family_name)
         self.drop(table_name)
 
     # Select all from family
-    def select_family(self, familyName):
+    def select_family(self, familyName, family_id):
         self.cursor.execute("SELECT * FROM %s" % familyName)
-        for (personID, motherID, fatherID, name, gender) in self.cursor:
-            print "%s, %s, %s, %s, %s" % (personID, motherID, fatherID, name, gender)
+        return cursor.fetchall()
 
     # Create a family table
     def create_family(self, family_name, family_id):
@@ -135,7 +155,12 @@ class TreeSQL:
             "PRIMARY KEY(personID)"
             ") ENGINE=InnoDB"
         ) % table_name.lower()
-        self.exec_change(sql_string)
+        try:
+            self.exec_change(sql_string)
+        except mysql.connector.Error as err:
+            print err
+            return False
+        return True
 
     # Insert into
     #def insert_node(self, family_name, pid, mid, fid, )
