@@ -77,7 +77,7 @@ def removeTree():
 		treeName = request.form['treeName']
 		print(treeName)
 		# need to pass in the family_id
-		#database.drop_family(treeName, "family_id")
+		database.delete_treehouse(email, treeName)
 		return redirect(url_for('controlpanel'))
 
 if __name__ == '__main__':

@@ -23,7 +23,7 @@
 
         <div class="center">
             <div class="treePanel">
-                <img id="temp" src="family_tree.jpg" height="600px"></img>
+              <div id="graph"></div>                <!-- if we can get the footer stuck to bottom, no need for height-->
             </div>
         </div>
 
@@ -80,6 +80,7 @@
         </div>
     </body>
     <script>
+        //MODAL CONNECTIONS
         // add modal
         var modal = document.getElementsByClassName("modal")[0];
         var addBtn = document.getElementById("addBtn");
@@ -120,5 +121,96 @@
         removeSpan.onclick = function() {
             modal.style.display = "none";
         }
+
+        /*
+            //psuedocode for constructing tree
+
+            struct nodeStruct
+            {
+                string name;
+                string spouseName;
+                string children;
+                string fatherName;
+                string motherName;
+                string gender;
+            }
+
+            int main()
+            {
+                nodeStruct node = getRootNode();
+                constructTree(node);
+            }
+
+            jsonObject getRootNode()
+            {
+                //iterate through each row of database/returned json object
+                for (each row in database)
+                {
+                    if (fatherName == "" && motherName == "" && gender == "f")
+                    {
+                        return this node;
+                    }
+                }
+            }
+
+            //global variable
+            string familyTreeString = "";
+
+            //recursive function that manipulates global variable;
+            string constructTree(node)
+            {
+                if (node.spouseName != "")
+                {
+                    get name of spouse
+                    familyTreeString.append(the root node's marriage);
+
+                    search database for children
+                    if (child == true)
+                    for (each child of rootNode)
+                    {
+                        familyTreeString.append(child to root node);
+                        constructTree(child);
+                    }
+                }
+
+                //Check if single parent has child
+                if (children == true && spouseName == "")
+                for (each child of rootNode)
+                {
+                    familyTreeString.append(child to root node);
+                    constructTree(child)
+                }
+
+                string tempString = familyTreeString;
+                familyTreeString = "";
+                return tempString;
+            }
+        */
+
+
+            //Change the content of treedata to request SQL data before loading.
+            //Function of the add button will refresh the page after updating database.
+            //Tree Data and initialization function
+              treeData =
+              [{ name: "Father",
+                        "class": "man",
+                        "textClass": "nodeText",
+                        marriages: [{"spouse": { "name": "Mother", "class": "woman",}, "children": [{  "name": "Child", "class": "man",}]}]
+              }]
+
+              treeData.name = "new";
+
+              dTree.init(treeData, {
+                target: "#graph",
+                debug: true,
+                height: 800,
+                width: 1200,
+                callbacks: {
+                  nodeClick: function(name, extra) {
+                    console.log(name);
+                  }
+                }
+
+              });
     </script>
 </html>

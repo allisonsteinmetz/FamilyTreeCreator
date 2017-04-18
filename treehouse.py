@@ -146,8 +146,7 @@ class TreeSQL:
         return cursor.fetchall()
 
     # Create a family table
-    def create_family(self, family_name, family_id):
-        table_name = str(family_name) + str(family_id)
+    def create_family(self, family_name):
         sql_string = (
             "CREATE TABLE %s("
             "name VARCHAR(50) NOT NULL,"
@@ -156,7 +155,7 @@ class TreeSQL:
             "gender CHAR(1) NOT NULL,"
             "PRIMARY KEY(personID)"
             ") ENGINE=InnoDB"
-        ) % table_name.lower()
+        ) % family_name.lower()
         try:
             self.exec_change(sql_string)
         except mysql.connector.Error as err:
