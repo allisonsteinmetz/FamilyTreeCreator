@@ -80,6 +80,7 @@
         
 /*
     //psuedocode for constructing tree
+    //note that this code makes the assumption that children are only branched off from female
 
     struct nodeStruct
     {
@@ -94,9 +95,10 @@
     int main()
     {
         nodeStruct node = getRootNode();
-        constructTree(node);
+        JSON final-tree = constructTree(node);
     }
 
+    //returns parentless female node at top of tree
     jsonObject getRootNode()
     {
         //iterate through each row of database/returned json object
@@ -124,10 +126,7 @@
             if (node == male)
             {
                 constructTree(spouseNode)
-            }
-
-
-            
+            }  
         }
 
         search database for children
