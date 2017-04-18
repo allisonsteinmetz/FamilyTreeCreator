@@ -53,6 +53,13 @@ def register():
 			print("error: retry password")
 		return render_template('login.html')
 
+@app.route('/logout', methods=['POST'])
+def logout():
+	print("Logout")
+	global loggedIn
+	loggedIn = False
+	return json.dumps(loggedIn)
+
 @app.route('/<family>')
 def tree(family):
 	return render_template('regions_modal_included.html', familyName = family)
@@ -62,6 +69,15 @@ def addTree():
 	if request.method == 'POST':
 		treeName = request.form['treeName']
 		database.insert_treehouse(email, treeName)
+		return redirect(url_for('controlpanel'))
+
+@app.route('/removeTree', methods=['POST'])
+def removeTree():
+	if request.method == 'POST':
+		treeName = request.form['treeName']
+		print(treeName)
+		# need to pass in the family_id
+		#database.drop_family(treeName, "family_id")
 		return redirect(url_for('controlpanel'))
 
 if __name__ == '__main__':
