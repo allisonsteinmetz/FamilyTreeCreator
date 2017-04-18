@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Family Tree Creator</title>
+        <title>{{ familyName }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="/static/regions_update.css">
@@ -40,13 +40,13 @@
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
+                <h2 style="font-family : Consolas, monaco, monospace;">Create Family Member</h2>
                 <form>
-                    <br><br>
-                    <label class="registerInputTitles">This entry is a:</label>
+                    <br>
+                    <label class="registerInputTitles">Gender:</label>
                     <select>
-                        <option value="Child">Child</option>
-                        <option value="Parent">Parent</option>
+                        <option>Male</option>
+                        <option>Female</option>
                     </select>
                     <br><br>
                     <label class="registerInputTitles">Name:</label>
@@ -54,13 +54,14 @@
                     <br><br>
                     <label class="registerInputTitles">Parent1:</label>
                     <select>
-                        <option value="Child">Child</option>
+                        <option>Child</option>
                     </select>
                     <br><br>
                     <label class="registerInputTitles">Parent2:</label>
-                    <select></select>
+                    <select>
+                    </select>
                     <br><br>
-                    <button class="Btn" onclick="addEntry()">Add Entry</button>
+                    <button class="Btn" onclick="addEntry()">Add Member</button>
                 </form>
             </div>
         </div>
@@ -79,7 +80,7 @@
         </div>
     </body>
     <script>
-      //add modal
+        // add modal
         var modal = document.getElementsByClassName("modal")[0];
         var addBtn = document.getElementById("addBtn");
         var addSpan = document.getElementsByClassName("close")[0];
