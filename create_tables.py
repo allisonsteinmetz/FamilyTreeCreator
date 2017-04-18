@@ -16,11 +16,9 @@ Tables['Account'] = (
 
 Tables['Treelist'] = (
     "CREATE TABLE Treelist("
-    "treeID INT NOT NULL AUTO_INCREMENT,"
     "email VARCHAR(100) NOT NULL,"
     "treeName VARCHAR(100) NOT NULL,"
-    "URL VARCHAR(100),"
-    "PRIMARY KEY(treeID),"
+    "PRIMARY KEY(email, treeName),"
     "FOREIGN KEY(email) REFERENCES Account(email)"
     ") ENGINE=InnoDB"
 )

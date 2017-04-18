@@ -147,10 +147,9 @@ class TreeSQL:
         table_name = str(family_name) + str(family_id)
         sql_string = (
             "CREATE TABLE %s("
-            "personID INT NOT NULL AUTO_INCREMENT,"
-            "motherID INT,"
-            "fatherID INT,"
             "name VARCHAR(50) NOT NULL,"
+            "motherName VARCHAR(50),"
+            "fatherName VARCHAR(50)"
             "gender CHAR(1) NOT NULL,"
             "PRIMARY KEY(personID)"
             ") ENGINE=InnoDB"
