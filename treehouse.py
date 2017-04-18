@@ -97,7 +97,7 @@ class TreeSQL:
         try:
             sql_string = "INSERT INTO Treelist (email, treeName) VALUES ('%s', '%s')" % (email, treeName)
             self.exec_change(sql_string)
-            self.create_family(get_family_name(email, treeName))
+            self.create_family(self.get_family_name(email, treeName))
 
         except mysql.connector.Error as err:
             print err
@@ -105,13 +105,13 @@ class TreeSQL:
     # Remove an entry from Treelist
     def delete_treehouse(self, email, treeName):
         sql_string = "DELETE FROM Treelist WHERE email = '%s' AND treeName = '%s'" % (email, treeName)
-        self.drop(get_family_name(email, treeName))
+        self.drop(self.get_family_name(email, treeName))
         self.exec_change(sql_string)
 
     def get_family_name(self, email, treeName):
-        if (self.select_username != False)
+        if (self.select_username != False):
             return self.select_username(email) + "_" +  treeName
-        else
+        else:
             return ""
 
     # Select family table names
