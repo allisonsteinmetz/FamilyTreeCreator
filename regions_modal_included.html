@@ -94,8 +94,8 @@
 
     int main()
     {
-        nodeStruct node = getRootNode();
-        JSON final-tree = constructTree(node);
+        nodeStruct rootNode = getRootNode();
+        JSON final-tree = constructTree(rootNode);
     }
 
     //returns parentless female node at top of tree
@@ -117,10 +117,19 @@
     //recursive function that manipulates global variable;
     string constructTree(node)
     {
+        if (node is the root node)
+        {
+            append relevant info to familyTreeString;
+        }
+
         if (node.spouseName != "")
         {
             get name of spouse
-            familyTreeString.append(the root node's marriage);
+            if (familyTreeString.search(spouse's name) == false)
+            {
+                familyTreeString.append(the root node's marriage);
+            }
+
 
             //only makes recursive call if spouse is female
             if (node.gender == "m")
