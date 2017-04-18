@@ -70,6 +70,16 @@ html, body
 	padding: 10px;
 }
 
+#titleDiv{
+	display: inline-block;
+	width: 45%;
+}
+
+.buttonsDiv{
+	display: inline-block;
+	width: 27%;
+}
+
 #buttonContainer
 {
 	display: block;

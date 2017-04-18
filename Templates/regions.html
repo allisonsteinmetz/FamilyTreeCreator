@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Family Tree Creator</title>
+        <title>{{ familyName }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="/static/regions_update.css">
@@ -9,8 +9,11 @@
     </head>
     <body>
         <div class="panel">
-            <h1 class="titleText">{{ familyName }}</h1>
-            <div>
+            <div class="buttonsDiv"></div>
+            <div id="titleDiv">
+                <h1 class="titleText">{{ familyName }}</h1>
+            </div>
+            <div class="buttonsDiv">
                 <button class="Btn" onclick="controlPanel()">Control Panel</button>
                 <button class="Btn" onclick="logout()">Logout</button>
             </div>
