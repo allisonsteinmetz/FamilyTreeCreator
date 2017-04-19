@@ -172,8 +172,6 @@
         if (node == globalRootNode)
         {
             append globalRootNode info to familyTreeString;
-            //resets globalRootNode
-            globalRootNode = NULL;
         }
         if (node.spouseName != "")
         {
@@ -197,10 +195,18 @@
                 constructTree(child);
             }
         }
-        //clears global variable familyTreeString for next use
-        string tempString = familyTreeString;
-        familyTreeString = "";
+        
+        //resets global variables
+        if (node == globalRootNode)
+        {
+            //clears global variable familyTreeString for next use
+            string tempString = familyTreeString;
+            familyTreeString = "";
+            //resets globalRootNode
+            globalRootNode = NULL;
+        }
         return tempString;
+            
     }
 */
         
