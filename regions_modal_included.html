@@ -177,28 +177,50 @@
                 marriages: [{"spouse": { "name": "Mother", "class": "woman",}, "children": [{  "name": "Child", "class": "man",}]}]
       }]
 
-      treeData.name = "new";
+        treeData.name = "new";
 
-dTree.init
-(
-    treeData, 
-    {
-        target: "#graph",
-        debug: true,
-        height: 800,
-        width: 1200,
-        callbacks: 
-        {
-            nodeClick: function(name, extra) 
+        dTree.init
+        (
+            treeData, 
             {
-                console.log(name);
+                target: "#graph",
+                debug: true,
+                height: 800,
+                width: 1200,
+                callbacks: 
+                {
+                    nodeClick: function(name, extra) 
+                    {
+                        console.log(name);
+                    }
+                }
             }
+        );
+        
+        
+        function refreshGraph()
+        {
+            document.getElementById("graph").innerHTML= "";
+            treeData.name = "new";
+
+            dTree.init
+            (
+                treeData, 
+                {
+                    target: "#graph",
+                    debug: true,
+                    height: 800,
+                    width: 1200,
+                    callbacks: 
+                    {
+                        nodeClick: function(name, extra) 
+                        {
+                            console.log(name);
+                        }
+                    }
+                }
+            );
         }
-    }
-);
-
-
-
 
         // Get the modal
         var modal = document.getElementById('myModal');
