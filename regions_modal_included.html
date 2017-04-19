@@ -179,18 +179,24 @@
 
       treeData.name = "new";
 
-      dTree.init(treeData, {
+dTree.init
+(
+    treeData, 
+    {
         target: "#graph",
         debug: true,
         height: 800,
         width: 1200,
-        callbacks: {
-          nodeClick: function(name, extra) {
-            console.log(name);
-          }
+        callbacks: 
+        {
+            nodeClick: function(name, extra) 
+            {
+                console.log(name);
+            }
         }
+    }
+);
 
-      });
 
 
 
