@@ -183,15 +183,16 @@
    			//Search the tree string to see if the spouse's information has already been added
             if (familyTreeString.search(node.spouse) == false)
             {
-            	unclosedMarriage = true;
+
                 if (node.gender == 'm')
                 {
                 	//opens spouse node info if spouse is female
-    	   			familyTreeString.append("marriages: [{\"spouse\": { \"name\": \"" + node.spouse + "\",\"class\": \"woman\",")
+    	   			familyTreeString.append("marriages: [{\"spouse\": { \"name\": \"" + node.spouse + "\",\"class\": \"woman\"}")
+    	   			unclosedMarriage = true;
     	   		}
     	   		else if (node.gender == 'f')
     	   		{
-					familyTreeString.append("marriages: [{\"spouse\": { \"name\": \"" + node.spouse + "\",\"class\": \"man\",")
+					familyTreeString.append("marriages: [{\"spouse\": { \"name\": \"" + node.spouse + "\",\"class\": \"man\",}]")
     	   		}
    			}
    		
@@ -226,7 +227,7 @@
 
             if(unclosedMarriage)
             {
-				familyTreeString.append("}]");
+				familyTreeString.append("]");
             }
         }
         
@@ -247,7 +248,6 @@
             
     }
 */
-
         
         
     //Change the content of treedata to request SQL data before loading.
