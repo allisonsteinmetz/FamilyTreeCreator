@@ -169,46 +169,85 @@
     //recursive function that manipulates global variable;
     string constructTree(node)
     {
+    	bool unclosedMarriage = false;
+
         if (node == globalRootNode)
         {
+        	//opens root node, adds name and gender.
+       		familyTreeString.append("[{name: \"" + node.name + "\", \"class\": \"" + node.gender + "\",")
             append globalRootNode info to familyTreeString;
         }
         if (node.spouseName != "")
         {
-            get name of spouse
-            if (familyTreeString.search(spouse's name) == false)
+   
+   			//Search the tree string to see if the spouse's information has already been added
+            if (familyTreeString.search(node.spouse) == false)
             {
-                familyTreeString.append(the root node's marriage);
-            }
+            	unclosedMarriage = true;
+                if (node.gender == 'm')
+                {
+                	//opens spouse node info if spouse is female
+    	   			familyTreeString.append("marriages: [{\"spouse\": { \"name\": \"" + node.spouse + "\",\"class\": \"woman\",")
+    	   		}
+    	   		else if (node.gender == 'f')
+    	   		{
+					familyTreeString.append("marriages: [{\"spouse\": { \"name\": \"" + node.spouse + "\",\"class\": \"man\",")
+    	   		}
+   			}
+   		
+            
             //only makes recursive call if spouse is female
             if (node.gender == "m")
             {
                 constructTree(spouseNode)
-            }  
+            }
         }
         //adds children to string. Recursively calls function on each child node.
         if (node.children != NULL && node.gender == "f")
         {
             for (each child of node)
             {
-                familyTreeString.append(child info);
+            	//opens male child information
+            	if (getGenderOfName(node.child[i]) == 'm')
+            	{
+					familyTreeString.append(\"children\": [{ \"name\": \"" + node.child[i] + "\", \"class\": \"man\"");
+            	}
+            	//opens female child information
+            	else
+            	{
+					familyTreeString.append(\"children\": [{ \"name\": \"" + node.child[i] + "\", \"class\": \"woman\"");
+            	}
+
                 constructTree(child);
+
+				//closes child
+				familyTreeString.append("}]");
+            }
+
+            if(unclosedMarriage)
+            {
+				familyTreeString.append("}]");
             }
         }
         
         //resets global variables
         if (node == globalRootNode)
         {
+        	//closes root node
+			familyTreeString.append("}]");
+
             //clears global variable familyTreeString for next use
             string tempString = familyTreeString;
             familyTreeString = "";
             //resets globalRootNode
             globalRootNode = NULL;
+
         }
         return tempString;
             
     }
 */
+
         
         
     //Change the content of treedata to request SQL data before loading.
