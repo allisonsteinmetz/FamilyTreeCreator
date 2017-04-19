@@ -1,6 +1,15 @@
 import mysql.connector
 from mysql.connector import errorcode
-import json
+
+class FamilyMember:
+    def __init__(self):
+        name = ""
+        spouseName = ""
+        children = []
+        motherName = ""
+        gender = ''
+
+
 
 # MySQL database connection class
 class TreeSQL:
@@ -94,6 +103,8 @@ class TreeSQL:
 
     # Insert an entry in Treelist
     def insert_treehouse(self, email, treeName):
+        if (self.test_family(treeName) == False):
+            return
         try:
             sql_string = "INSERT INTO Treelist (email, treeName) VALUES ('%s', '%s')" % (email, treeName)
             self.exec_change(sql_string)
@@ -117,7 +128,7 @@ class TreeSQL:
     # Select family table names
     def select_families_for_account(self, email):
         sql_string = "SELECT treeName FROM Treelist WHERE email = '%s'" % email
-        self.cursor.execute(sql_string);
+        self.cursor.execute(sql_string)
 
         families = []
         for (treeName) in self.cursor:
@@ -128,34 +139,20 @@ class TreeSQL:
 
     ##### Family table methods
 
-    # See if syntax is correct for family
-    def test_family(self, family_name):
-        if (self.create_family(family_name) == True):
-            self.drop_family(family_name)
-            return True
-        return False
-
-    # Drop a family table
-    def drop_family(self,  family_name):
-        table_name = str(family_name)
-        self.drop(table_name)
-
-    # Select all from family
-    def select_family(self, familyName):
-        self.cursor.execute("SELECT * FROM %s" % familyName)
-        return cursor.fetchall()
-
     # Create a family table
+    # DO NOT USE outside of insert_treehouse()
     def create_family(self, family_name):
         sql_string = (
             "CREATE TABLE %s("
             "name VARCHAR(50) NOT NULL,"
+            "spouseName VARCHAR(50),"
             "motherName VARCHAR(50),"
-            "fatherName VARCHAR(50)"
             "gender CHAR(1) NOT NULL,"
-            "PRIMARY KEY(personID)"
+            "PRIMARY KEY(name)"
+            "FOREIGN KEY(spouseName) REFERENCES %s(name)"
+            "FOREIGN KEY(motherName) REFERENCES %s(name)"
             ") ENGINE=InnoDB"
-        ) % family_name.lower()
+        ) % (family_name, family_name, family_name)
         try:
             self.exec_change(sql_string)
         except mysql.connector.Error as err:
@@ -163,6 +160,61 @@ class TreeSQL:
             return False
         return True
 
+
+    # Drop a family table
+    # DO NOT USE outside of delete_treehouse()
+    def drop_family(self, family_name):
+        self.drop(family_name)
+
+
+    # See if syntax is correct for family
+    def test_family(self, family_name):
+        if (self.create_family(family_name) == True):
+            self.drop_family(family_name)
+            return True
+        return False
+
+
+    # Select all from family
+    def select_family(self, familyName):
+        sql_string = "SELECT name, spouseName, motherName, gender FROM %s" % familyName
+        self.cursor.execute(sql_string)
+
+        members = []
+        for name, spouseName, motherName, gender in self.cursor:
+            row = FamilyMember()
+            row.name = name
+            row.spouseName = spouseName
+            row.motherName = motherName
+            row.gender = gender
+            members.append(row)
+
+        for member in members:
+            member.children = self.get_children(familyName, member.name)
+
+        return members
+
+
+    # Find the children of a family_name
+    def get_children(self, familyName, motherName):
+        sql_string = "SELECT name FROM %s WHERE motherName = '%s'" % (familyName, motherName)
+        self.cursor.execute(sql_string)
+        children = []
+        for child in self.cursor:
+            children.append(child)
+        return children
+
+    # Insert a new person into the family
     def insert_person(self, family_name, name, gender):
-        sql_string = "INSERT INTO %s(name, gender) VALUES ('%s', '%s') "
-        self.exec_change(insert_person)
+        sql_string = "INSERT INTO %s(name, gender) VALUES ('%s', '%s')" % (family_name, name, gender)
+        self.exec_change(sql_string)
+
+    # Update the spouse for a person in a family
+    def update_spouse(self, family_name, name, spouse_name):
+        sql_string = "UPDATE %s SET spouseName = '%s' WHERE name = '%s'" % (family_name, spouse_name, name)
+        self.exec_change(sql_string)
+
+    # Update the mother for a person in a family
+    def update_mother(self, family_name, name, mother_name):
+        sql_string = "UPDATE %s SET motherName = '%s' WHERE name = '%s'" % (family_name, mother_name, name)
+        self.exec_change(sql_string)
