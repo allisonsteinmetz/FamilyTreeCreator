@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 
+
 class FamilyMember:
     def __init__(self):
         name = ""
@@ -8,7 +9,6 @@ class FamilyMember:
         children = []
         motherName = ""
         gender = ''
-
 
 
 # MySQL database connection class
@@ -148,8 +148,8 @@ class TreeSQL:
             "spouseName VARCHAR(50),"
             "motherName VARCHAR(50),"
             "gender CHAR(1) NOT NULL,"
-            "PRIMARY KEY(name)"
-            "FOREIGN KEY(spouseName) REFERENCES %s(name)"
+            "PRIMARY KEY(name),"
+            "FOREIGN KEY(spouseName) REFERENCES %s(name),"
             "FOREIGN KEY(motherName) REFERENCES %s(name)"
             ") ENGINE=InnoDB"
         ) % (family_name, family_name, family_name)
@@ -194,7 +194,6 @@ class TreeSQL:
 
         return members
 
-
     # Find the children of a family_name
     def get_children(self, familyName, motherName):
         sql_string = "SELECT name FROM %s WHERE motherName = '%s'" % (familyName, motherName)
@@ -203,6 +202,10 @@ class TreeSQL:
         for child in self.cursor:
             children.append(child)
         return children
+
+    # Get the gender of a person
+    def get_gender(self, familyName, personName):
+        sql_string = "SELECT gender FROM %s WHERE name = '%s'" % (familyName, personName)
 
     # Insert a new person into the family
     def insert_person(self, family_name, name, gender):
@@ -218,3 +221,31 @@ class TreeSQL:
     def update_mother(self, family_name, name, mother_name):
         sql_string = "UPDATE %s SET motherName = '%s' WHERE name = '%s'" % (family_name, mother_name, name)
         self.exec_change(sql_string)
+
+# JSON generating class
+class TreeJSON:
+    def __init__(self, familyName):
+        self.db = TreeSQL()
+        self.db.connect()
+        self.entries = self.db.select_family(familyName)
+        self.db.disconnect()
+
+    def find_family_member(self, name):
+        member = FamilyMember()
+        for row in self.entries:
+            if row.name == name:
+                member = row
+                break
+        return member
+
+    def find_root(self):
+        root = ""
+        for row in self.entries:
+            if row.motherName is None and row.gender == 'F' and self.find_family_member(row.spouseName).motherName is None:
+                root = row.name
+                break
+        print root
+
+    def print_family(self):
+        for row in self.entries:
+            print "%s %s %s" % (row.name, row.spouseName, row.children)
