@@ -161,36 +161,6 @@
                 "textClass": "nodeText",
                 marriages: [{"spouse": { "name": "Mother", "class": "woman",}, "children": [{  "name": "Child", "class": "man",}]}]
         }]
-<<<<<<< Updated upstream
-        
-	//Is called to draw initial tree.
-	refreshGraph();
-        
-    //Redraws graph found in variable treeData.
-    function refreshGraph()
-    {
-        document.getElementById("graph").innerHTML= "";
-        treeData.name = "new";
-        dTree.init
-        (
-            treeData, 
-            {
-                target: "#graph",
-                debug: true,
-                height: 770,
-                width: 1200,
-                callbacks: 
-                {
-                    nodeClick: function(name, extra) 
-                    {
-                        console.log(name);
-                    }
-                }
-            }
-        );
-    }
-		
-=======
 
       	//Is called to draw initial tree.
       	refreshGraph();
@@ -219,7 +189,7 @@
             );
         }
 
->>>>>>> Stashed changes
+
 	//takes an argument in the form of a string and turns it into drawn tree.
 	function drawGraph(treeToBeDrawn)
 	{
