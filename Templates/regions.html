@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="/static/regions_update.css">
-        <link rel="stylesheet" type="text/css" href="/static/ModelBox.css">
+        <link rel="stylesheet" type="text/css" href="/static/ModelBox.css">				<!-- change back to "/static/ModelBox.css" -->
         <script src="static/regions.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     </head>
@@ -16,8 +16,8 @@
                 <h1 class="titleText">{{ familyName }}</h1>
             </div>
             <div class="buttonsDiv">
-                <button class="Btn" onclick="controlPanel()">Control Panel</button>
-                <button class="Btn" onclick="logout()">Logout</button>
+                <button class="Btn" style="position: absolute; top: 15px; left: 50px" onclick="controlPanel()">Control Panel</button>
+                <button class="Btn" style="position: absolute; top: 15px; left: 270px" onclick="logout()">Logout</button>
             </div>
         </div>
 
@@ -138,29 +138,29 @@
 	//Is called to draw initial tree.
 	refreshGraph();
         
-        //Redraws graph found in variable treeData.
-        function refreshGraph()
-        {
-            document.getElementById("graph").innerHTML= "";
-            treeData.name = "new";
-            dTree.init
-            (
-                treeData, 
+    //Redraws graph found in variable treeData.
+    function refreshGraph()
+    {
+        document.getElementById("graph").innerHTML= "";
+        treeData.name = "new";
+        dTree.init
+        (
+            treeData, 
+            {
+                target: "#graph",
+                debug: true,
+                height: 770,
+                width: 1200,
+                callbacks: 
                 {
-                    target: "#graph",
-                    debug: true,
-                    height: 800,
-                    width: 1200,
-                    callbacks: 
+                    nodeClick: function(name, extra) 
                     {
-                        nodeClick: function(name, extra) 
-                        {
-                            console.log(name);
-                        }
+                        console.log(name);
                     }
                 }
-            );
-        }
+            }
+        );
+    }
 		
 	//takes an argument in the form of a string and turns it into drawn tree.
 	function drawGraph(treeToBeDrawn)
