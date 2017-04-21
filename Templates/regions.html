@@ -4,8 +4,8 @@
         <title>{{ familyName }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="/static/regions_update.css">
-        <link rel="stylesheet" type="text/css" href="/static/ModelBox.css">
+        <link rel="stylesheet" type="text/css" href="regions_update.css">
+        <link rel="stylesheet" type="text/css" href="ModelBox.css">
         <script src="static/regions.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     </head>
@@ -127,157 +127,18 @@
             modal.style.display = "none";
         }
 
-/*
-    //psuedocode for constructing tree
-    //note that this code makes the assumption that children are only branched off from female
-    //needs sql functionality to...
-        //function which will return row information given a name
-        //function which will return row information given a spouse's name
-        //both need to be stored in structure like the one used below.
-    struct nodeStruct
-    {
-        string name;
-        string spouseName;
-        string children[];
-        string motherName;
-        string gender;
-    }
-    int main()
-    {
-        nodeStruct rootNode = getRootNode();
-        JSON final-tree = constructTree(rootNode);
-    }
-    
-    nodeStruct globalRootNode;
-    //returns parentless female node at top of tree
-    jsonObject getRootNode()
-    {
-        //iterate through each row of database/returned json object
-        for (each row in database)
-        {
-            if (fatherName == "" && motherName == "" && gender == "f")
-            {
-                globalRootNode = this node;
-                return this node;
-            }
-        }
-    }    
-    
-    //global variable
-    string familyTreeString = "";
-    
-    //recursive function that manipulates global variable;
-    string constructTree(node)
-    {
-    	bool unclosedMarriage = false;
-
-        if (node == globalRootNode)
-        {
-        	//opens root node, adds name and gender.
-       		familyTreeString.append("[{name: \"" + node.name + "\", \"class\": \"" + node.gender + "\",")
-            append globalRootNode info to familyTreeString;
-        }
-        if (node.spouseName != "")
-        {
-   
-   			//Search the tree string to see if the spouse's information has already been added
-            if (familyTreeString.search(node.spouse) == false)
-            {
-
-                if (node.gender == 'm')
-                {
-                	//opens spouse node info if spouse is female
-    	   			familyTreeString.append("marriages: [{\"spouse\": { \"name\": \"" + node.spouse + "\",\"class\": \"woman\"},")
-    	   			unclosedMarriage = true;
-    	   		}
-    	   		else if (node.gender == 'f')
-    	   		{
-					familyTreeString.append("marriages: [{\"spouse\": { \"name\": \"" + node.spouse + "\",\"class\": \"man\",}]")
-    	   		}
-   			}
-   		
-            
-            //only makes recursive call if spouse is female
-            if (node.gender == "m")
-            {
-                constructTree(spouseNode)
-            }
-        }
-        //adds children to string. Recursively calls function on each child node.
-        if (node.children != NULL && node.gender == "f")
-        {
-            for (each child of node)
-            {
-            	//opens male child information
-            	if (getGenderOfName(node.child[i]) == 'm')
-            	{
-					familyTreeString.append(\"children\": [{ \"name\": \"" + node.child[i] + "\", \"class\": \"man\"");
-            	}
-            	//opens female child information
-            	else
-            	{
-					familyTreeString.append(\"children\": [{ \"name\": \"" + node.child[i] + "\", \"class\": \"woman\"");
-            	}
-
-                constructTree(child);
-
-				//closes child
-				familyTreeString.append("}]");
-            }
-
-            if(unclosedMarriage)
-            {
-				familyTreeString.append("]");
-            }
-        }
-        
-        //resets global variables
-        if (node == globalRootNode)
-        {
-        	//closes root node
-			familyTreeString.append("}]");
-
-            //clears global variable familyTreeString for next use
-            string tempString = familyTreeString;
-            familyTreeString = "";
-            //resets globalRootNode
-            globalRootNode = NULL;
-
-        }
-        return tempString;
-            
-    }
-*/
-        
-        
-    //Change the content of treedata to request SQL data before loading.
-    //Tree Data and initialization function
+		
         treeData = 
         [{ name: "Father",
                 "class": "man",
                 "textClass": "nodeText",
                 marriages: [{"spouse": { "name": "Mother", "class": "woman",}, "children": [{  "name": "Child", "class": "man",}]}]
         }]
-        treeData.name = "new";
-        dTree.init
-        (
-            treeData, 
-            {
-                target: "#graph",
-                debug: true,
-                height: 800,
-                width: 1200,
-                callbacks: 
-                {
-                    nodeClick: function(name, extra) 
-                    {
-                        console.log(name);
-                    }
-                }
-            }
-        );
         
+		//Draws initial tree.
+		refreshGraph();
         
+        //Redraws graph found in variable treeData.
         function refreshGraph()
         {
             document.getElementById("graph").innerHTML= "";
@@ -300,5 +161,12 @@
                 }
             );
         }
+		
+		//takes an argument in the form of a string and turns it into drawn tree.
+		function drawGraph(treeToBeDrawn)
+		{
+			treeData = treeToBeDrawn;
+			refreshGraph();
+		}
     </script>
 </html>
