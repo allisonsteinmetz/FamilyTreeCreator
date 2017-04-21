@@ -16,3 +16,18 @@ function logout(){
 function controlPanel(){
   window.location = "/";
 }
+
+function addMember(){
+  event.preventDefault();
+    $.ajax({
+        url: '/addMember',
+        data: $('form').serialize(),
+        type: 'POST',
+        success: function(response) {
+            console.log(response)
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}

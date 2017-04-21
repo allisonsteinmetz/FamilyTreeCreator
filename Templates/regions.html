@@ -41,7 +41,7 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 style="font-family : Consolas, monaco, monospace;">Create Family Member</h2>
-                <form action="/addMember" method="post">
+                <form onsubmit="return addMember();">
                     <label class="registerInputTitles">*Gender:</label>
                     <select name="gender">
                         <option>Male</option>
@@ -54,11 +54,17 @@
                     <label class="registerInputTitles">Mother:</label>
                     <select name="mother">
                       <option>None</option>
+                      {% for member in members %}
+                        <option>{{ member.name }}</option>
+                      {% endfor %}
                     </select>
                     <br><br>
                     <label class="registerInputTitles">Spouse:</label>
                     <select name="spouse">
                       <option>None</option>
+                      {% for member in members %}
+                        <option>{{ member.name }}</option>
+                      {% endfor %}
                     </select>
                     <br><br>
                     <p class="registerInputTitles">*Required field</p>

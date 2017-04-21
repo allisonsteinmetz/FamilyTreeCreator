@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, url_for,  redirect, request, json
 from flask import make_response
-from treehouse import TreeSQL
+from treehouse import TreeSQL, TreeJSON
 
 app = Flask(__name__)
 
@@ -63,15 +63,11 @@ def logout():
 
 @app.route('/<family>')
 def tree(family):
-	# name = database.get_family_name(email, family)
-	# members = database.select_family(name)
-	# print(members)
 	if(family != 'favicon.ico'):
 		global familyName
 		familyName = database.get_family_name(email, family)
 		members = database.select_family(familyName)
-		print(members)
-	return render_template('regions.html', family = family)
+	return render_template('regions.html', family = family, members = members)
 
 @app.route('/addTree', methods=['POST'])
 def addTree():
@@ -93,7 +89,6 @@ def removeTree():
 def addMember():
 	if request.method == 'POST':
 		gender = request.form['gender']
-		print(gender)
 		name = request.form['name']
 		mother = request.form['mother']
 		spouse = request.form['spouse']
@@ -102,7 +97,9 @@ def addMember():
 			database.update_mother(familyName, name, mother)
 		if(spouse != 'None'):
 			database.update_spouse(familyName, name, spouse)
-		return redirect(url_for('tree', family = 'Steinmetz'))
+		tree = TreeJSON(familyName)
+		print(tree.get_JSON())
+		return json.dumps(tree.get_JSON())
 
 if __name__ == '__main__':
     app.run(debug=False, port = 8000)

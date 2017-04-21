@@ -253,7 +253,8 @@ class TreeJSON:
     def find_root(self):
         root = ""
         for row in self.entries:
-            if row.motherName == "None" and row.gender == 'F' and self.find_family_member(row.spouseName).motherName == "None":
+            print(row)
+            if row.motherName == "None" and row.gender == 'F' and self.find_family_member(row.spouseName) == False:
                 self.globalRootNode = row
                 break
 
