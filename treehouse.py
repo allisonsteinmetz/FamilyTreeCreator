@@ -262,28 +262,28 @@ class TreeJSON:
     def constructTree(self, node, spouse_added):
         unclosedMarriage = False
         if (node == self.globalRootNode):
-            self.familyTreeString += "[{name: \"" + node.name + "\", \"class\": \"woman\","
+            self.familyTreeString += "[{name: '" + node.name + "', 'class': 'woman',"
 
         if (node.spouseName != "None"):
             if spouse_added == False:
                 if node.gender == 'M':
-                    self.familyTreeString += "marriages: [{\"spouse\": { \"name\": \"" + node.spouseName + "\",\"class\": \"woman\"}, "
+                    self.familyTreeString += "marriages: [{'spouse': { 'name': '" + node.spouseName + "','class': 'woman'}, "
                     unclosedMarriage = True
                 elif node.gender == 'F':
-                    self.familyTreeString += "marriages: [{\"spouse\": { \"name\": \"" + node.spouseName + "\",\"class\": \"man\"}, "
+                    self.familyTreeString += "marriages: [{'spouse': { 'name': '" + node.spouseName + "','class': 'man'}, "
                     unclosedMarriage = True
             if node.gender == 'M':
                 self.constructTree(self.find_family_member(node.spouseName), True)
 
         if (len(node.children) != 0 and node.gender == 'F'):
-            self.familyTreeString += "\"children\": ["
+            self.familyTreeString += "'children': ["
             for child in node.children:
                 childObj = self.find_family_member(child[0])
 
                 if childObj.gender == 'M':
-                    self.familyTreeString += "{ \"name\": \"" + childObj.name + "\", \"class\": \"man\", "
+                    self.familyTreeString += "{ 'name': '" + childObj.name + "', 'class': 'man', "
                 else:
-                    self.familyTreeString += "{ \"name\": \"" + childObj.name + "\", \"class\": \"woman\", "
+                    self.familyTreeString += "{ 'name': '" + childObj.name + "', 'class': 'woman', "
 
                 self.constructTree(childObj, False)
                 self.familyTreeString += "}, "
