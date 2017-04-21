@@ -201,6 +201,17 @@
 		treeData = treeToBeDrawn;
 		refreshGraph();
 	}
+	   
+	//Call before parsing the string into a JSON object.
+	function removeUnnecessaryCommas(s)
+	{
+		var blah = s;
+		blah = blah.replace(",}", "}");
+		blah = blah.replace(", }", "}");
+		blah = blah.replace(",]", "]");
+		blah = blah.replace(", ]", "]");
+		return blah;
+	}
 	
 /*
  //http://stackoverflow.com/questions/27230293/how-to-convert-svg-to-png-using-html5-canvas-javascript-jquery-and-save-on-serve
