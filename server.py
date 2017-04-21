@@ -69,7 +69,9 @@ def tree(family):
 	if(family != 'favicon.ico'):
 		global familyName
 		familyName = database.get_family_name(email, family)
-	return render_template('regions.html', familyName = family)
+		members = database.select_family(familyName)
+		print(members)
+	return render_template('regions.html', family = family)
 
 @app.route('/addTree', methods=['POST'])
 def addTree():

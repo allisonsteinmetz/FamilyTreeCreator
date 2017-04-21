@@ -4,8 +4,8 @@
         <title>{{ familyName }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="regions_update.css">
-        <link rel="stylesheet" type="text/css" href="ModelBox.css">				<!-- change back to "/static/ModelBox.css" -->
+        <link rel="stylesheet" type="text/css" href="/static/regions_update.css">
+        <link rel="stylesheet" type="text/css" href="/static/ModelBox.css">				<!-- change back to "/static/ModelBox.css" -->
         <script src="static/regions.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     </head>
@@ -13,7 +13,7 @@
         <div class="panel">
             <div class="buttonsDiv"></div>
             <div id="titleDiv">
-                <h1 class="titleText">{{ familyName }}</h1>
+                <h1 class="titleText">{{ family }}</h1>
             </div>
             <div class="buttonsDiv">
                 <button class="Btn" style="position: absolute; top: 15px; left: 50px" onclick="controlPanel()">Control Panel</button>
@@ -80,7 +80,7 @@
                 </form>
             </div>
         </div>
-	    
+
 	<!-- edit modal-->
         <div id="editModal" class="modal">
             <div class="modal-content">
@@ -104,7 +104,7 @@
                 </form>
             </div>
         </div>
-	    
+
     </body>
 
     <script src="https://cdn.rawgit.com/ErikGartner/dTree/2.0.0/dist/dTree.min.js"></script>
