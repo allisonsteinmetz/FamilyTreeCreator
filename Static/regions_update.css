@@ -53,7 +53,7 @@
 html, body
 {
 	height: 100%;
-	background : #2F243A;
+	background : rgb(218, 196, 255);
 }
 #wrapper
 {
