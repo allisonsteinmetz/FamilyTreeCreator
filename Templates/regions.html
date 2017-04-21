@@ -127,7 +127,7 @@
             modal.style.display = "none";
         }
 
-		
+	//Sets data for initial tree to be drawn.	
         treeData = 
         [{ name: "Father",
                 "class": "man",
@@ -135,8 +135,8 @@
                 marriages: [{"spouse": { "name": "Mother", "class": "woman",}, "children": [{  "name": "Child", "class": "man",}]}]
         }]
         
-		//Draws initial tree.
-		refreshGraph();
+	//Is called to draw initial tree.
+	refreshGraph();
         
         //Redraws graph found in variable treeData.
         function refreshGraph()
@@ -162,11 +162,11 @@
             );
         }
 		
-		//takes an argument in the form of a string and turns it into drawn tree.
-		function drawGraph(treeToBeDrawn)
-		{
-			treeData = treeToBeDrawn;
-			refreshGraph();
-		}
+	//takes an argument in the form of a string and turns it into drawn tree.
+	function drawGraph(treeToBeDrawn)
+	{
+		treeData = treeToBeDrawn;
+		refreshGraph();
+	}
     </script>
 </html>
