@@ -240,6 +240,7 @@ class TreeJSON:
                 return member
         return False
 
+    # Don't call
     def find_root(self):
         root = ""
         for row in self.entries:
@@ -247,7 +248,7 @@ class TreeJSON:
                 self.globalRootNode = row
                 break
 
-
+    # Don't call
     def constructTree(self, node, spouse_added):
         unclosedMarriage = False
         if (node == self.globalRootNode):
@@ -292,16 +293,8 @@ class TreeJSON:
 
         return finalString
 
-
-    def print_family(self):
-        for row in self.entries:
-            print "%s %s %s" % (row.name, row.spouseName, row.children)
-
-
-#class FamilyMember:
-#    def __init__(self):
-#        name = ""
-#        spouseName = ""
-#        children = []
-#        motherName = ""
-#        gender = ''
+    # Return a JSON string from the treehouse
+    # CALL THIS ONE
+    def get_JSON(self):
+        self.find_root()
+        return self.constructTree(self.globalRootNode, False)
