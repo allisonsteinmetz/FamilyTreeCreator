@@ -78,6 +78,31 @@
                 </form>
             </div>
         </div>
+	    
+	<!-- edit modal-->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 style="font-family : Consolas, monaco, monospace;">Edit familymember</h2>
+                <form action="/editNode" method="post">
+                    <br>
+                    <label class="registerInputTitles">Name:</label>
+                    <input type="name" name="treeName" class="registerInputText" placeholder="Name">
+                    <br><br>
+                    <label class="registerInputTitles">Name change:</label>
+                    <input type="name" name="treeName" class="registerInputText" placeholder="Name">
+                    <br><br>
+                    <label class="registerInputTitles">Gender change:</label>
+                    <select>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                    <br><br>
+                    <button class="Btn" id="editBtn">Edit Person</button>
+                </form>
+            </div>
+        </div>
+	    
     </body>
     
     <script src="https://cdn.rawgit.com/ErikGartner/dTree/2.0.0/dist/dTree.min.js"></script>
