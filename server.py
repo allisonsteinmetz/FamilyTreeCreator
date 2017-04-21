@@ -8,6 +8,7 @@ app = Flask(__name__)
 loggedIn = False
 username = ''
 email = ''
+familyName = ''
 database = TreeSQL()
 database.connect()
 
@@ -62,6 +63,12 @@ def logout():
 
 @app.route('/<family>')
 def tree(family):
+	# name = database.get_family_name(email, family)
+	# members = database.select_family(name)
+	# print(members)
+	if(family != 'favicon.ico'):
+		global familyName
+		familyName = database.get_family_name(email, family)
 	return render_template('regions.html', familyName = family)
 
 @app.route('/addTree', methods=['POST'])
@@ -79,6 +86,21 @@ def removeTree():
 		# need to pass in the family_id
 		database.delete_treehouse(email, treeName)
 		return redirect(url_for('controlpanel'))
+
+@app.route('/addMember', methods=['POST'])
+def addMember():
+	if request.method == 'POST':
+		gender = request.form['gender']
+		print(gender)
+		name = request.form['name']
+		mother = request.form['mother']
+		spouse = request.form['spouse']
+		database.insert_person(familyName, name, gender)
+		if(mother != 'None'):
+			database.update_mother(familyName, name, mother)
+		if(spouse != 'None'):
+			database.update_spouse(familyName, name, spouse)
+		return redirect(url_for('tree', family = 'Steinmetz'))
 
 if __name__ == '__main__':
     app.run(debug=False, port = 8000)

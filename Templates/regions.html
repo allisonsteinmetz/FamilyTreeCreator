@@ -41,27 +41,29 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 style="font-family : Consolas, monaco, monospace;">Create Family Member</h2>
-                <form>
-                    <br>
-                    <label class="registerInputTitles">Gender:</label>
-                    <select>
+                <form action="/addMember" method="post">
+                    <label class="registerInputTitles">*Gender:</label>
+                    <select name="gender">
                         <option>Male</option>
                         <option>Female</option>
                     </select>
                     <br><br>
-                    <label class="registerInputTitles">Name:</label>
-                    <input type="name" name="entryType" class="registerInputText" placeholder="Name">
+                    <label class="registerInputTitles">*Name:</label>
+                    <input type="name" name="name" class="registerInputText" placeholder="Name">
                     <br><br>
-                    <label class="registerInputTitles">Parent1:</label>
-                    <select>
-                        <option>Child</option>
+                    <label class="registerInputTitles">Mother:</label>
+                    <select name="mother">
+                      <option>None</option>
                     </select>
                     <br><br>
-                    <label class="registerInputTitles">Parent2:</label>
-                    <select>
+                    <label class="registerInputTitles">Spouse:</label>
+                    <select name="spouse">
+                      <option>None</option>
                     </select>
                     <br><br>
-                    <button class="Btn" onclick="addEntry()">Add Member</button>
+                    <p class="registerInputTitles">*Required field</p>
+                    <br>
+                    <button class="Btn" id="addBtn">Add Member</button>
                 </form>
             </div>
         </div>
@@ -69,7 +71,7 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
-                <form action="/removeNode" method="post">
+                <form action="/removeMember" method="post">
                     <br>
                     <label class="registerInputTitles">Name:</label>
                     <input type="name" name="treeName" class="registerInputText" placeholder="Name">
@@ -104,11 +106,11 @@
         </div>
 	    
     </body>
-    
+
     <script src="https://cdn.rawgit.com/ErikGartner/dTree/2.0.0/dist/dTree.min.js"></script>
     <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    
+
     <script>
         //MODAL CONNECTIONS
         // add modal
@@ -152,13 +154,14 @@
             modal.style.display = "none";
         }
 
-	//Sets data for initial tree to be drawn.	
-        treeData = 
+	      //Sets data for initial tree to be drawn.
+        treeData =
         [{ name: "Father",
                 "class": "man",
                 "textClass": "nodeText",
                 marriages: [{"spouse": { "name": "Mother", "class": "woman",}, "children": [{  "name": "Child", "class": "man",}]}]
         }]
+<<<<<<< Updated upstream
         
 	//Is called to draw initial tree.
 	refreshGraph();
@@ -187,6 +190,36 @@
         );
     }
 		
+=======
+
+      	//Is called to draw initial tree.
+      	refreshGraph();
+
+        //Redraws graph found in variable treeData.
+        function refreshGraph()
+        {
+            document.getElementById("graph").innerHTML= "";
+            treeData.name = "new";
+            dTree.init
+            (
+                treeData,
+                {
+                    target: "#graph",
+                    debug: true,
+                    height: 800,
+                    width: 1200,
+                    callbacks:
+                    {
+                        nodeClick: function(name, extra)
+                        {
+                            console.log(name);
+                        }
+                    }
+                }
+            );
+        }
+
+>>>>>>> Stashed changes
 	//takes an argument in the form of a string and turns it into drawn tree.
 	function drawGraph(treeToBeDrawn)
 	{
