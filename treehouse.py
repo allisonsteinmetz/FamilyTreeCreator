@@ -5,9 +5,9 @@ from mysql.connector import errorcode
 class FamilyMember:
     def __init__(self):
         name = ""
-        spouseName = ""
+        spouseName = "None"
         children = []
-        motherName = ""
+        motherName = "None"
         gender = ''
 
 
@@ -184,8 +184,17 @@ class TreeSQL:
         for name, spouseName, motherName, gender in self.cursor:
             row = FamilyMember()
             row.name = name
-            row.spouseName = spouseName
-            row.motherName = motherName
+
+            if (spouseName is None):
+                row.spouseName = "None"
+            else:
+                row.spouseName = spouseName
+
+            if (motherName is None):
+                row.motherName = "None"
+            else:
+                row.motherName = motherName
+
             row.gender = gender
             members.append(row)
 
@@ -244,7 +253,7 @@ class TreeJSON:
     def find_root(self):
         root = ""
         for row in self.entries:
-            if row.motherName is None and row.gender == 'F' and self.find_family_member(row.spouseName).motherName is None:
+            if row.motherName == "None" and row.gender == 'F' and self.find_family_member(row.spouseName).motherName == "None":
                 self.globalRootNode = row
                 break
 
@@ -254,7 +263,7 @@ class TreeJSON:
         if (node == self.globalRootNode):
             self.familyTreeString += "[{name: \"" + node.name + "\", \"class\": \"woman\","
 
-        if (node.spouseName != None):
+        if (node.spouseName != "None"):
             if spouse_added == False:
                 if node.gender == 'M':
                     self.familyTreeString += "marriages: [{\"spouse\": { \"name\": \"" + node.spouseName + "\",\"class\": \"woman\"}, "
