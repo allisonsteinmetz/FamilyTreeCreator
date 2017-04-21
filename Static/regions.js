@@ -25,7 +25,8 @@ function addMember(){
         type: 'POST',
         success: function(response) {
             console.log(response)
-            d = JSON.parse(JSON.parse(response))
+            d = JSON.parse(response)
+            console.log(d);
             drawGraph(d)
         },
         error: function(error) {
