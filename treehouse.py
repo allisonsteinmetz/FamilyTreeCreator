@@ -4,11 +4,18 @@ from mysql.connector import errorcode
 
 class FamilyMember:
     def __init__(self):
-        name = ""
-        spouseName = "None"
-        children = []
-        motherName = "None"
-        gender = ''
+        self.name = ""
+        self.spouseName = "None"
+        self.children = []
+        self.motherName = "None"
+        self.gender = ""
+
+    def copy_family(self, obj):
+        self.name = obj.name
+        self.spouseName = obj.spouseName
+        self.children = obj.children[:]
+        self.motherName = obj.motherName
+        self.gender = obj.gender
 
 
 # MySQL database connection class
@@ -186,12 +193,12 @@ class TreeSQL:
             row.name = name
 
             if (spouseName is None):
-                row.spouseName = "None"
+                row.spouseName = u"None"
             else:
                 row.spouseName = spouseName
 
             if (motherName is None):
-                row.motherName = "None"
+                row.motherName = u"None"
             else:
                 row.motherName = motherName
 
@@ -235,6 +242,7 @@ class TreeSQL:
 class TreeJSON:
     def __init__(self, familyName):
         self.familyTreeString = ""
+        self.found_root = False
         self.globalRootNode = FamilyMember()
         self.db = TreeSQL()
         self.db.connect()
@@ -252,46 +260,48 @@ class TreeJSON:
     # Don't call
     def find_root(self):
         root = ""
+        self.found_root = False
         for row in self.entries:
-            print(row)
-            if row.motherName == "None" and row.gender == 'F' and self.find_family_member(row.spouseName) == False:
-                self.globalRootNode = row
-                break
+            if row.motherName == "None" and row.gender == 'F':
+                if (row.spouseName == "None" or (row.spouseName != "None" and self.find_family_member(row.spouseName).motherName == "None")):
+                    self.globalRootNode = row
+                    self.found_root = True
+                    break
 
     # Don't call
     def constructTree(self, node, spouse_added):
         unclosedMarriage = False
         if (node == self.globalRootNode):
-            self.familyTreeString += "[{name: '" + node.name + "', 'class': 'woman',"
+            self.familyTreeString += "[{'name': '" + node.name + "', 'class': 'woman'"
 
         if (node.spouseName != "None"):
             if spouse_added == False:
                 if node.gender == 'M':
-                    self.familyTreeString += "marriages: [{'spouse': { 'name': '" + node.spouseName + "','class': 'woman'}, "
+                    self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'woman'}"
                     unclosedMarriage = True
                 elif node.gender == 'F':
-                    self.familyTreeString += "marriages: [{'spouse': { 'name': '" + node.spouseName + "','class': 'man'}, "
+                    self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'man'}"
                     unclosedMarriage = True
             if node.gender == 'M':
                 self.constructTree(self.find_family_member(node.spouseName), True)
 
         if (len(node.children) != 0 and node.gender == 'F'):
-            self.familyTreeString += "'children': ["
+            self.familyTreeString += ", 'children': ["
             for child in node.children:
                 childObj = self.find_family_member(child[0])
 
                 if childObj.gender == 'M':
-                    self.familyTreeString += "{ 'name': '" + childObj.name + "', 'class': 'man', "
+                    self.familyTreeString += "{ 'name': '" + childObj.name + "', 'class': 'man'"
                 else:
-                    self.familyTreeString += "{ 'name': '" + childObj.name + "', 'class': 'woman', "
+                    self.familyTreeString += "{ 'name': '" + childObj.name + "', 'class': 'woman'"
 
                 self.constructTree(childObj, False)
                 self.familyTreeString += "}, "
 
-            self.familyTreeString += "], "
+            self.familyTreeString += "]"
 
         if (unclosedMarriage):
-            self.familyTreeString += "}], "
+            self.familyTreeString += "}]"
 
         finalString = ""
         if (node == self.globalRootNode):
@@ -300,11 +310,13 @@ class TreeJSON:
             self.familyTreeString = ""
             globalRootNode = FamilyMember()
 
-
         return finalString
 
     # Return a JSON string from the treehouse
     # CALL THIS ONE
     def get_JSON(self):
         self.find_root()
-        return self.constructTree(self.globalRootNode, False)
+        if self.found_root:
+            return self.constructTree(self.globalRootNode, False)
+        else:
+            return ""

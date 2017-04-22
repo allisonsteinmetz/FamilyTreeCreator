@@ -63,11 +63,18 @@ def logout():
 
 @app.route('/<family>')
 def tree(family):
+	members = []
+	familyGraph = ""
 	if(family != 'favicon.ico'):
 		global familyName
 		familyName = database.get_family_name(email, family)
 		members = database.select_family(familyName)
-	return render_template('regions.html', family = family, members = members)
+
+		graphObj = TreeJSON(familyName)
+		familyGraph = graphObj.get_JSON()
+
+	return render_template('regions.html', family = family, members = members, familyGraph = familyGraph)
+
 
 @app.route('/addTree', methods=['POST'])
 def addTree():

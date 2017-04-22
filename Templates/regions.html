@@ -161,6 +161,8 @@
         }
 
 	      //Sets data for initial tree to be drawn.
+        var familyGraph = {{familyGraph|tojson|safe}}
+
         treeData =
         [{ name: "Father",
                 "class": "man",
@@ -168,7 +170,7 @@
         }]
 
       	//Is called to draw initial tree.
-      	refreshGraph();
+      	drawGraph(familyGraph)
 
         //Redraws graph found in variable treeData.
         function refreshGraph()
@@ -194,25 +196,22 @@
             );
         }
 
+        //Call before parsing string into JSON object
+        function normalizeJSON(s)
+      	{
+      		s = s.split(", ]").join("]")
+          s = s.split("\'").join("\"")
+          return s
+      	}
 
-	//takes an argument in the form of a string and turns it into drawn tree.
-	function drawGraph(treeToBeDrawn)
-	{
-		treeData = treeToBeDrawn;
-		refreshGraph();
-	}
-	   
-	//Call before parsing the string into a JSON object.
-	function removeUnnecessaryCommas(s)
-	{
-		var blah = s;
-		blah = blah.replace(",}", "}");
-		blah = blah.replace(", }", "}");
-		blah = blah.replace(",]", "]");
-		blah = blah.replace(", ]", "]");
-		return blah;
-	}
-	
+      	//takes an argument in the form of a string and turns it into drawn tree.
+      	function drawGraph(graphString)
+      	{
+          newData = JSON.parse(normalizeJSON(graphString));
+      		treeData = newData;
+      		refreshGraph();
+      	}
+
 /*
  //http://stackoverflow.com/questions/27230293/how-to-convert-svg-to-png-using-html5-canvas-javascript-jquery-and-save-on-serve
  //http://jsfiddle.net/epistemex/xfh7nctk/23/
@@ -244,6 +243,6 @@ drawInlineSVG(ctxt, svgText, function() {
   alert("see console for output...");
 });
 */
-	    
+
     </script>
 </html>
