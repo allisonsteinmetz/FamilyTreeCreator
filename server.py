@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, url_for,  redirect, request, json
-from flask import make_response
+from flask import make_response, jsonify
 from treehouse import TreeSQL, TreeJSON
 
 app = Flask(__name__)
@@ -64,16 +64,20 @@ def logout():
 @app.route('/<family>')
 def tree(family):
 	members = []
+	memNames = []
 	familyGraph = ""
 	if(family != 'favicon.ico'):
 		global familyName
 		familyName = database.get_family_name(email, family)
 		members = database.select_family(familyName)
+		for member in members:
+			memNames.append(member.name)
+		print(memNames)
 
 		graphObj = TreeJSON(familyName)
 		familyGraph = graphObj.get_JSON()
 
-	return render_template('regions.html', family = family, members = members, familyGraph = familyGraph)
+	return render_template('regions.html', family = family, members = memNames, familyGraph = familyGraph)
 
 
 @app.route('/addTree', methods=['POST'])
@@ -107,6 +111,24 @@ def addMember():
 		tree = TreeJSON(familyName)
 		print(tree.get_JSON())
 		return json.dumps(tree.get_JSON())
+
+@app.route('/removeMember', methods=['POST'])
+def removeMember():
+	if request.method == 'POST':
+		name = request.form['name']
+		# REMOVE MEMBER
+		tree = TreeJSON(familyName)
+		print(tree.get_JSON())
+		return json.dumps(tree.get_JSON())
+
+@app.route('/getMembers', methods=['POST'])
+def getMembers():
+	members = database.select_family(familyName)
+	memNames = []
+	for member in members:
+		memNames.append(member.name)
+	print(memNames)
+	return json.dumps(memNames)
 
 if __name__ == '__main__':
     app.run(debug=False, port = 8000)
