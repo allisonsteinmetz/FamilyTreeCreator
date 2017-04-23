@@ -72,8 +72,6 @@ def tree(family):
 		members = database.select_family(familyName)
 		for member in members:
 			memNames.append(member.name)
-		print(memNames)
-
 		graphObj = TreeJSON(familyName)
 		familyGraph = graphObj.get_JSON()
 
@@ -109,7 +107,19 @@ def addMember():
 		if(spouse != 'None'):
 			database.update_spouse(familyName, name, spouse)
 		tree = TreeJSON(familyName)
-		print(tree.get_JSON())
+		return json.dumps(tree.get_JSON())
+
+@app.route('/editMember', methods=['POST'])
+def editMember():
+	if request.method == 'POST':
+		name = request.form['editName']
+		mother = request.form['editMother']
+		spouse = request.form['editSpouse']
+		if(mother != 'None'):
+			database.update_mother(familyName, name, mother)
+		if(spouse != 'None'):
+			database.update_spouse(familyName, name, spouse)
+		tree = TreeJSON(familyName)
 		return json.dumps(tree.get_JSON())
 
 @app.route('/removeMember', methods=['POST'])
@@ -127,7 +137,6 @@ def getMembers():
 	memNames = []
 	for member in members:
 		memNames.append(member.name)
-	print(memNames)
 	return json.dumps(memNames)
 
 if __name__ == '__main__':

@@ -37,6 +37,26 @@ function addMember(){
     });
 }
 
+function editMember(){
+  event.preventDefault();
+    $.ajax({
+        url: '/editMember',
+        data: $('form').serialize(),
+        type: 'POST',
+        success: function(response) {
+            console.log(response)
+            d = JSON.parse(response)
+            console.log(d);
+            drawGraph(d);
+            getMembers();
+            location.reload();
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
+
 function removeMember(){
   event.preventDefault();
     $.ajax({
