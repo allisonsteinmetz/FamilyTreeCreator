@@ -222,21 +222,33 @@ class TreeSQL:
     # Get the gender of a person
     def get_gender(self, familyName, personName):
         sql_string = "SELECT gender FROM %s WHERE name = '%s'" % (familyName, personName)
+        self.exec_change(sql_string)
+        for gender in self.cursor:
+            return gender[0]
 
     # Insert a new person into the family
     def insert_person(self, family_name, name, gender):
         sql_string = "INSERT INTO %s(name, gender) VALUES ('%s', '%s')" % (family_name, name, gender)
         self.exec_change(sql_string)
 
+    # Delete a person from the family
+    def delete_person(self, family_name, name):
+        sql_string = "DELETE FROM %s WHERE name = '%s'" % (family_name, name)
+        self.exec_change(sql_string)
+
     # Update the spouse for a person in a family
     def update_spouse(self, family_name, name, spouse_name):
         sql_string = "UPDATE %s SET spouseName = '%s' WHERE name = '%s'" % (family_name, spouse_name, name)
+        self.exec_change(sql_string)
+        sql_string = "UPDATE %s SET spouseName = '%s' WHERE name = '%s'" % (family_name, name, spouse_name)
         self.exec_change(sql_string)
 
     # Update the mother for a person in a family
     def update_mother(self, family_name, name, mother_name):
         sql_string = "UPDATE %s SET motherName = '%s' WHERE name = '%s'" % (family_name, mother_name, name)
         self.exec_change(sql_string)
+
+
 
 # JSON generating class
 class TreeJSON:
