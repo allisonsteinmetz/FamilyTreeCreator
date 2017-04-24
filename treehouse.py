@@ -8,6 +8,7 @@ class FamilyMember:
         self.spouseName = "None"
         self.children = []
         self.motherName = "None"
+        self.fatherName = "None"
         self.gender = ""
 
     def copy_family(self, obj):
@@ -15,6 +16,7 @@ class FamilyMember:
         self.spouseName = obj.spouseName
         self.children = obj.children[:]
         self.motherName = obj.motherName
+        self.fatherName = obj.fatherName
         self.gender = obj.gender
 
 
@@ -154,6 +156,7 @@ class TreeSQL:
             "name VARCHAR(50) NOT NULL,"
             "spouseName VARCHAR(50),"
             "motherName VARCHAR(50),"
+            "fatherName VARCHAR(50),"
             "gender CHAR(1) NOT NULL,"
             "PRIMARY KEY(name),"
             "FOREIGN KEY(spouseName) REFERENCES %s(name),"
@@ -184,7 +187,7 @@ class TreeSQL:
 
     # Select all from family
     def select_family(self, familyName):
-        sql_string = "SELECT name, spouseName, motherName, gender FROM %s" % familyName
+        sql_string = "SELECT name, spouseName, motherName, fatherName, gender FROM %s" % familyName
         self.cursor.execute(sql_string)
 
         members = []
@@ -202,22 +205,19 @@ class TreeSQL:
             else:
                 row.motherName = motherName
 
+            if (fatherName is None):
+                row.fatherName = u"None"
+            else:
+                row.fatherName = fatherName
+
             row.gender = gender
             members.append(row)
 
         for member in members:
-            member.children = self.get_children(familyName, member.name)
+            member.children = self.get_children(familyName, member)
 
         return members
 
-    # Find the children of a family_name
-    def get_children(self, familyName, motherName):
-        sql_string = "SELECT name FROM %s WHERE motherName = '%s'" % (familyName, motherName)
-        self.cursor.execute(sql_string)
-        children = []
-        for child in self.cursor:
-            children.append(child)
-        return children
 
     # Get the gender of a person
     def get_gender(self, familyName, personName):
@@ -225,6 +225,24 @@ class TreeSQL:
         self.exec_change(sql_string)
         for gender in self.cursor:
             return gender[0]
+
+
+    # Find the children of a family_name
+    # parent_type options = "mother", "father"
+    def get_children(self, familyName, parent, parent_type):
+        parent_type = ""
+        if (parent_type == 'father'):
+            parent_type = "fatherName"
+        else:
+            parent_type = "motherName"
+
+        sql_string = "SELECT name FROM %s WHERE %s = '%s'" % (familyName, parent_type, parent.name)
+        self.cursor.execute(sql_string)
+        children = []
+        for child in self.cursor:
+            children.append(child)
+        return children
+
 
     # Insert a new person into the family
     def insert_person(self, family_name, name, gender):
@@ -248,6 +266,12 @@ class TreeSQL:
         sql_string = "UPDATE %s SET motherName = '%s' WHERE name = '%s'" % (family_name, mother_name, name)
         self.exec_change(sql_string)
 
+    # Update the father for a person in the family
+    def update_father(self, family_name, name, father_name):
+        sql_string = "UPDATE %s SET fatherName = '%s' WHERE name = '%s'" % (family_name, father_name, name)
+        self.exec_change(sql_string)
+
+
 
 
 # JSON generating class
@@ -261,6 +285,7 @@ class TreeJSON:
         self.entries = self.db.select_family(familyName)
         self.db.disconnect()
 
+    # Find and construct a family member object
     def find_family_member(self, name):
         member = FamilyMember()
         for row in self.entries:
@@ -274,7 +299,7 @@ class TreeJSON:
         root = ""
         self.found_root = False
         for row in self.entries:
-            if row.motherName == "None" and row.gender == 'F':
+            if row.motherName == "None" and row.fatherName = "None":
                 if (row.spouseName == "None" or (row.spouseName != "None" and self.find_family_member(row.spouseName).motherName == "None")):
                     self.globalRootNode = row
                     self.found_root = True
