@@ -63,7 +63,7 @@
                     <select name="spouse">
                       <option>None</option>
                       {% for member in members %}
-                        <option>{{ member.name }}</option>
+                        <option>{{ member }}</option>
                       {% endfor %}
                     </select>
                     <br><br>
@@ -76,11 +76,11 @@
         <div id="removeModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
+                <h2 style="font-family : Consolas, monaco, monospace;">Enter member you would like to delete</h2>
                 <form onsubmit="return removeMember();">
                     <br>
                     <label class="registerInputTitles">Name:</label>
-                    <input type="name" name="treeName" class="registerInputText" placeholder="Name">
+                    <input type="name" name="deleteName" class="registerInputText" placeholder="Name">
                     <br><br>
                     <button class="Btn" id="removeBtn">Delete Member</button>
                 </form>
@@ -92,7 +92,7 @@
                 <h2 style="font-family : Consolas, monaco, monospace;">Edit Family Member</h2>
                 <form onsubmit="return editMember();">
                     <br>
-                    <label class="registerInputTitles">Select family member:</label>
+                    <label class="registerInputTitles">Family Member to Edit:</label>
                     <select name="editName">
                       <option>None</option>
                       {% for member in members %}
@@ -100,7 +100,7 @@
                       {% endfor %}
                     </select>
                     <br><br>
-                    <label class="registerInputTitles">Mother:</label>
+                    <label class="registerInputTitles">New Mother:</label>
                     <select name="editMother">
                       <option>None</option>
                       {% for member in members %}
@@ -108,7 +108,7 @@
                       {% endfor %}
                     </select>
                     <br><br>
-                    <label class="registerInputTitles">Spouse:</label>
+                    <label class="registerInputTitles">New Spouse:</label>
                     <select name="editSpouse">
                       <option>None</option>
                       {% for member in members %}

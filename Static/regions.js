@@ -19,6 +19,7 @@ function controlPanel(){
 
 function addMember(){
   event.preventDefault();
+  var modal = document.getElementsByClassName("modal")[0];
     $.ajax({
         url: '/addMember',
         data: $('form').serialize(),
@@ -29,6 +30,7 @@ function addMember(){
             console.log(d);
             drawGraph(d);
             getMembers();
+            modal.style.display = "none";
             location.reload();
         },
         error: function(error) {
@@ -39,6 +41,7 @@ function addMember(){
 
 function editMember(){
   event.preventDefault();
+  var modal = document.getElementsByClassName("modal")[2];
     $.ajax({
         url: '/editMember',
         data: $('form').serialize(),
@@ -49,6 +52,7 @@ function editMember(){
             console.log(d);
             drawGraph(d);
             getMembers();
+            modal.style.display = "none";
             location.reload();
         },
         error: function(error) {
@@ -59,15 +63,19 @@ function editMember(){
 
 function removeMember(){
   event.preventDefault();
+  var modal = document.getElementsByClassName("modal")[1];
     $.ajax({
         url: '/removeMember',
         data: $('form').serialize(),
         type: 'POST',
         success: function(response) {
-            console.log(response)
-            d = JSON.parse(response)
-            console.log(d);
-            drawGraph(d)
+          console.log(response)
+          d = JSON.parse(response)
+          console.log(d);
+          drawGraph(d);
+          getMembers();
+          modal.style.display = "none";
+          location.reload();
         },
         error: function(error) {
             console.log(error);
