@@ -90,7 +90,6 @@ def removeTree():
 	if request.method == 'POST':
 		treeName = request.form['treeName']
 		print(treeName)
-		# need to pass in the family_id
 		database.delete_treehouse(email, treeName)
 		return redirect(url_for('controlpanel'))
 
@@ -128,10 +127,9 @@ def editMember():
 @app.route('/removeMember', methods=['POST'])
 def removeMember():
 	if request.method == 'POST':
-		name = request.form['name']
-		# REMOVE MEMBER
+		name = request.form['deleteName']
+		database.delete_person(familyName, name)
 		tree = TreeJSON(familyName)
-		print(tree.get_JSON())
 		return json.dumps(tree.get_JSON())
 
 @app.route('/getMembers', methods=['POST'])

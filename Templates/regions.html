@@ -71,7 +71,7 @@
                     <select name="spouse">
                       <option>None</option>
                       {% for member in members %}
-                        <option>{{ member.name }}</option>
+                        <option>{{ member }}</option>
                       {% endfor %}
                     </select>
                     <br><br>
@@ -84,11 +84,16 @@
         <div id="removeModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
+<<<<<<< HEAD
                 <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
                 <form action="/removeMember" method="post">
+=======
+                <h2 style="font-family : Consolas, monaco, monospace;">Enter member you would like to delete</h2>
+                <form onsubmit="return removeMember();">
+>>>>>>> refs/remotes/origin/master
                     <br>
                     <label class="registerInputTitles">Name:</label>
-                    <input type="name" name="treeName" class="registerInputText" placeholder="Name">
+                    <input type="name" name="deleteName" class="registerInputText" placeholder="Name">
                     <br><br>
                     <button class="Btn" id="removeBtn">Delete Person</button>
                 </form>
@@ -102,6 +107,7 @@
                 <h2 style="font-family : Consolas, monaco, monospace;">Edit familymember</h2>
                 <form action="/editNode" method="post">
                     <br>
+<<<<<<< HEAD
                     <label class="registerInputTitles">Name:</label>
                     <input type="name" name="treeName" class="registerInputText" placeholder="Name">
                     <br><br>
@@ -112,6 +118,30 @@
                     <select>
                         <option>Male</option>
                         <option>Female</option>
+=======
+                    <label class="registerInputTitles">Family Member to Edit:</label>
+                    <select name="editName">
+                      <option>None</option>
+                      {% for member in members %}
+                        <option>{{ member }}</option>
+                      {% endfor %}
+                    </select>
+                    <br><br>
+                    <label class="registerInputTitles">New Mother:</label>
+                    <select name="editMother">
+                      <option>None</option>
+                      {% for member in members %}
+                        <option>{{ member }}</option>
+                      {% endfor %}
+                    </select>
+                    <br><br>
+                    <label class="registerInputTitles">New Spouse:</label>
+                    <select name="editSpouse">
+                      <option>None</option>
+                      {% for member in members %}
+                        <option>{{ member }}</option>
+                      {% endfor %}
+>>>>>>> refs/remotes/origin/master
                     </select>
                     <br><br>
                     <button class="Btn" id="editBtn">Edit Person</button>
