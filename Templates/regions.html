@@ -59,6 +59,14 @@
                       {% endfor %}
                     </select>
                     <br><br>
+                    <label class="registerInputTitles">Father:</label>
+                    <select name="father">
+                      <option>None</option>
+                      {% for member in members %}
+                        <option>{{ member }}</option>
+                      {% endfor %}
+                    </select>
+                    <br><br>
                     <label class="registerInputTitles">Spouse:</label>
                     <select name="spouse">
                       <option>None</option>

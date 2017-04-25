@@ -8,6 +8,7 @@ class FamilyMember:
         self.spouseName = "None"
         self.children = []
         self.motherName = "None"
+        self.fatherName = "None"
         self.gender = ""
 
     def copy_family(self, obj):
@@ -15,6 +16,7 @@ class FamilyMember:
         self.spouseName = obj.spouseName
         self.children = obj.children[:]
         self.motherName = obj.motherName
+        self.fatherName = obj.fatherName
         self.gender = obj.gender
 
 
@@ -33,14 +35,12 @@ class TreeSQL:
 
     # Destructor
     def __del__(self):
-        if (self.cnx != None):
-            self.disconnect()
+        self.disconnect()
 
     # Create a connection to the database
     # IMPORTANT: must be called before any other method here
     def connect(self):
-        if (self.cnx != None):
-            self.disconnect()
+        self.disconnect()
 
         try:
             self.cnx = mysql.connector.connect(
@@ -59,8 +59,12 @@ class TreeSQL:
 
     # End the connection to the database
     def disconnect(self):
-        self.cnx.close()
-        self.cursor.close()
+        if (self.cnx != None):
+            if (self.cursor != None):
+                self.cursor.close()
+                self.cursor  = None
+            self.cnx.close()
+            self.cnx = None
 
     # Execute any statement that changes the database
     def exec_change(self, statement):
@@ -120,17 +124,20 @@ class TreeSQL:
         except mysql.connector.Error as err:
             print err
 
+
     # Remove an entry from Treelist
     def delete_treehouse(self, email, treeName):
         sql_string = "DELETE FROM Treelist WHERE email = '%s' AND treeName = '%s'" % (email, treeName)
         self.drop(self.get_family_name(email, treeName))
         self.exec_change(sql_string)
 
+
     def get_family_name(self, email, treeName):
         if (self.select_username != False):
             return self.select_username(email) + "_" +  treeName
         else:
             return ""
+
 
     # Select family table names
     def select_families_for_account(self, email):
@@ -154,6 +161,7 @@ class TreeSQL:
             "name VARCHAR(50) NOT NULL,"
             "spouseName VARCHAR(50),"
             "motherName VARCHAR(50),"
+            "fatherName VARCHAR(50),"
             "gender CHAR(1) NOT NULL,"
             "PRIMARY KEY(name),"
             "FOREIGN KEY(spouseName) REFERENCES %s(name),"
@@ -171,6 +179,8 @@ class TreeSQL:
     # Drop a family table
     # DO NOT USE outside of delete_treehouse()
     def drop_family(self, family_name):
+        sql_string = "UPDATE %s SET spouseName = NULL, motherName = NULL, fatherName = NULL"
+        self.exec_change(sql_string)
         self.drop(family_name)
 
 
@@ -184,40 +194,37 @@ class TreeSQL:
 
     # Select all from family
     def select_family(self, familyName):
-        sql_string = "SELECT name, spouseName, motherName, gender FROM %s" % familyName
+        sql_string = "SELECT name, spouseName, motherName, fatherName, gender FROM %s" % familyName
         self.cursor.execute(sql_string)
 
         members = []
-        for name, spouseName, motherName, gender in self.cursor:
-            row = FamilyMember()
-            row.name = name
+        for name, spouseName, motherName, fatherName, gender in self.cursor:
+            member = FamilyMember()
+            member.name = name
 
             if (spouseName is None):
-                row.spouseName = u"None"
+                member.spouseName = u"None"
             else:
-                row.spouseName = spouseName
+                member.spouseName = spouseName
 
             if (motherName is None):
-                row.motherName = u"None"
+                member.motherName = u"None"
             else:
-                row.motherName = motherName
+                member.motherName = motherName
 
-            row.gender = gender
-            members.append(row)
+            if (fatherName is None):
+                member.fatherName = u"None"
+            else:
+                member.fatherName = fatherName
+
+            member.gender = gender
+            members.append(member)
 
         for member in members:
             member.children = self.get_children(familyName, member.name)
 
         return members
 
-    # Find the children of a family_name
-    def get_children(self, familyName, motherName):
-        sql_string = "SELECT name FROM %s WHERE motherName = '%s'" % (familyName, motherName)
-        self.cursor.execute(sql_string)
-        children = []
-        for child in self.cursor:
-            children.append(child)
-        return children
 
     # Get the gender of a person
     def get_gender(self, familyName, personName):
@@ -226,15 +233,49 @@ class TreeSQL:
         for gender in self.cursor:
             return gender[0]
 
+
+    # Find the children of a family_name
+    def get_children(self, familyName, parentName):
+        sql_string = "SELECT name FROM %s WHERE (fatherName = '%s' OR motherName = '%s')" % (familyName, parentName, parentName)
+        self.cursor.execute(sql_string)
+        children = []
+        for child in self.cursor:
+            children.append(child)
+        return children
+
+
     # Insert a new person into the family
     def insert_person(self, family_name, name, gender):
         sql_string = "INSERT INTO %s(name, gender) VALUES ('%s', '%s')" % (family_name, name, gender)
         self.exec_change(sql_string)
 
+
     # Delete a person from the family
     def delete_person(self, family_name, name):
+        family = self.select_family(family_name)
+
+        # Only allow deletion of leaf nodes
+        for member in family:
+            connections = 0
+            if member.name == name:
+                if (len(member.children) != 0):
+                    return False
+
+                if (member.motherName != "None" or member.fatherName != "None"):
+                    connections += 1
+                if (member.spouseName != "None"):
+                    connections += 1
+
+            if (connections > 1):
+                return False
+
+        sql_string = "UPDATE %s SET spouseName = NULL WHERE spouseName = '%s' " % (family_name, name)
+        self.exec_change(sql_string)
+        sql_string = "UPDATE %s SET spouseName = NULL WHERE name = '%s' " % (family_name, name)
+        self.exec_change(sql_string)
         sql_string = "DELETE FROM %s WHERE name = '%s'" % (family_name, name)
         self.exec_change(sql_string)
+
 
     # Update the spouse for a person in a family
     def update_spouse(self, family_name, name, spouse_name):
@@ -243,10 +284,19 @@ class TreeSQL:
         sql_string = "UPDATE %s SET spouseName = '%s' WHERE name = '%s'" % (family_name, name, spouse_name)
         self.exec_change(sql_string)
 
+
     # Update the mother for a person in a family
     def update_mother(self, family_name, name, mother_name):
         sql_string = "UPDATE %s SET motherName = '%s' WHERE name = '%s'" % (family_name, mother_name, name)
         self.exec_change(sql_string)
+
+
+    # Update the father for a person in the family
+    def update_father(self, family_name, name, father_name):
+        sql_string = "UPDATE %s SET fatherName = '%s' WHERE name = '%s'" % (family_name, father_name, name)
+        self.exec_change(sql_string)
+
+
 
 
 
@@ -261,6 +311,7 @@ class TreeJSON:
         self.entries = self.db.select_family(familyName)
         self.db.disconnect()
 
+    # Find and construct a family member object
     def find_family_member(self, name):
         member = FamilyMember()
         for row in self.entries:
@@ -269,35 +320,52 @@ class TreeJSON:
                 return member
         return False
 
-    # Don't call
+    # Find the root of the tree
+    # DO NOT CALL unless necessary
     def find_root(self):
-        root = ""
-        self.found_root = False
-        for row in self.entries:
-            if row.motherName == "None" and row.gender == 'F':
-                if (row.spouseName == "None" or (row.spouseName != "None" and self.find_family_member(row.spouseName).motherName == "None")):
+        # No root if there is no tree
+        if (len(self.entries) == 0):
+            return False
+        # Single entry is root by definition
+        elif (len(self.entries) == 1):
+            self.globalRootNode = self.entries[0]
+            self.found_root = True
+        # Find the first topmost node in all other cases
+        else:
+            for row in self.entries:
+                if row.spouseName == "None" and row.motherName == "None" and row.fatherName == "None":
                     self.globalRootNode = row
                     self.found_root = True
-                    break
+                elif row.spouseName != "None":
+                    spouse = self.find_family_member(row.spouseName)
+                    if (spouse.fatherName == "None" and spouse.motherName == "None"):
+                        self.globalRootNode = row
+                        self.found_root = True
 
-    # Don't call
-    def constructTree(self, node, spouse_added):
+
+    # Build the tree string recursively
+    def constructTree(self, node):
         unclosedMarriage = False
+
         if (node == self.globalRootNode):
-            self.familyTreeString += "[{'name': '" + node.name + "', 'class': 'woman'"
+            self.familyTreeString += "[{'name': '" + node.name + "', 'class':"
+            if (self.globalRootNode.gender == 'M'):
+                self.familyTreeString += "'man',"
+            else:
+                self.familyTreeString += "'woman',"
+            self.familyTreeString += "'textClass':'rootText'"
 
         if (node.spouseName != "None"):
-            if spouse_added == False:
-                if node.gender == 'M':
-                    self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'woman'}"
-                    unclosedMarriage = True
-                elif node.gender == 'F':
-                    self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'man'}"
-                    unclosedMarriage = True
-            if node.gender == 'M':
-                self.constructTree(self.find_family_member(node.spouseName), True)
+            spouse = self.find_family_member(node.spouseName)
+            if spouse.gender == 'F':
+                self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'woman'}"
+                unclosedMarriage = True
+            elif spouse.gender == 'M':
+                self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'man'}"
+                unclosedMarriage = True
 
-        if (len(node.children) != 0 and node.gender == 'F'):
+
+        if (len(node.children) != 0):
             self.familyTreeString += ", 'children': ["
             for child in node.children:
                 childObj = self.find_family_member(child[0])
@@ -307,7 +375,7 @@ class TreeJSON:
                 else:
                     self.familyTreeString += "{ 'name': '" + childObj.name + "', 'class': 'woman'"
 
-                self.constructTree(childObj, False)
+                self.constructTree(childObj)
                 self.familyTreeString += "}, "
 
             self.familyTreeString += "]"
@@ -320,7 +388,7 @@ class TreeJSON:
             self.familyTreeString += "}]"
             finalString = self.familyTreeString
             self.familyTreeString = ""
-            globalRootNode = FamilyMember()
+            self.globalRootNode = FamilyMember()
 
         return finalString
 
@@ -329,6 +397,6 @@ class TreeJSON:
     def get_JSON(self):
         self.find_root()
         if self.found_root:
-            return self.constructTree(self.globalRootNode, False)
+            return self.constructTree(self.globalRootNode)
         else:
-            return ""
+            return "[]"

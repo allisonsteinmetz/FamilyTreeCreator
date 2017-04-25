@@ -205,6 +205,10 @@ a:visited{
   border-width: 1px;
 }
 
+.rootText {
+	font-weight: bold;
+}
+
 .emphasis {
   font-style: italic;
 }
