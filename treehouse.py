@@ -199,29 +199,29 @@ class TreeSQL:
 
         members = []
         for name, spouseName, motherName, fatherName, gender in self.cursor:
-            row = FamilyMember()
-            row.name = name
+            member = FamilyMember()
+            member.name = name
 
             if (spouseName is None):
-                row.spouseName = u"None"
+                member.spouseName = u"None"
             else:
-                row.spouseName = spouseName
+                member.spouseName = spouseName
 
             if (motherName is None):
-                row.motherName = u"None"
+                member.motherName = u"None"
             else:
-                row.motherName = motherName
+                member.motherName = motherName
 
             if (fatherName is None):
-                row.fatherName = u"None"
+                member.fatherName = u"None"
             else:
-                row.fatherName = fatherName
+                member.fatherName = fatherName
 
-            row.gender = gender
-            members.append(row)
+            member.gender = gender
+            members.append(member)
 
         for member in members:
-            member.children = self.get_children(familyName, member)
+            member.children = self.get_children(familyName, member.name)
 
         return members
 
@@ -330,16 +330,7 @@ class TreeJSON:
         elif (len(self.entries) == 1):
             self.globalRootNode = self.entries[0]
             self.found_root = True
-        # If a parent was added, they are the new root node
-        # Otherwise, do nothing
-        elif (len(self.entries) == 2):
-            mother = find_family_member(self.globalRootNode.motherName)
-            father = find_family_member(self.globalRootNode.fatherName)
-            if (mother != "None"):
-                self.globalRootNode = mother
-            elif (father != "None"):
-                self.globalRootNode = father
-        # Just find the first topmost node in all other cases
+        # Find the first topmost node in all other cases
         else:
             for row in self.entries:
                 if row.spouseName == "None" and row.motherName == "None" and row.fatherName == "None":
@@ -353,7 +344,7 @@ class TreeJSON:
 
 
     # Build the tree string recursively
-    def constructTree(self, node, spouse_added):
+    def constructTree(self, node):
         unclosedMarriage = False
 
         if (node == self.globalRootNode):
@@ -365,17 +356,16 @@ class TreeJSON:
             self.familyTreeString += "'textClass':'rootText'"
 
         if (node.spouseName != "None"):
-            if spouse_added == False:
-                if node.gender == 'M':
-                    self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'woman'}"
-                    unclosedMarriage = True
-                elif node.gender == 'F':
-                    self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'man'}"
-                    unclosedMarriage = True
-            if node.gender == self.globalRootNode.gender:
-                self.constructTree(self.find_family_member(node.spouseName), True)
+            spouse = self.find_family_member(node.spouseName)
+            if spouse.gender == 'F':
+                self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'woman'}"
+                unclosedMarriage = True
+            elif spouse.gender == 'M':
+                self.familyTreeString += ", 'marriages': [{'spouse': { 'name': '" + node.spouseName + "','class': 'man'}"
+                unclosedMarriage = True
 
-        if (len(node.children) != 0 and node.gender == self.globalRootNode.gender):
+
+        if (len(node.children) != 0):
             self.familyTreeString += ", 'children': ["
             for child in node.children:
                 childObj = self.find_family_member(child[0])
@@ -385,7 +375,7 @@ class TreeJSON:
                 else:
                     self.familyTreeString += "{ 'name': '" + childObj.name + "', 'class': 'woman'"
 
-                self.constructTree(childObj, False)
+                self.constructTree(childObj)
                 self.familyTreeString += "}, "
 
             self.familyTreeString += "]"
@@ -407,6 +397,6 @@ class TreeJSON:
     def get_JSON(self):
         self.find_root()
         if self.found_root:
-            return self.constructTree(self.globalRootNode, False)
+            return self.constructTree(self.globalRootNode)
         else:
             return "[]"

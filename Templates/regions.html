@@ -55,7 +55,7 @@
                     <select name="mother">
                       <option>None</option>
                       {% for member in members %}
-                        <option>{{ member.name }}</option>
+                        <option>{{ member }}</option>
                       {% endfor %}
                     </select>
                     <br><br>
@@ -63,7 +63,7 @@
                     <select name="father">
                       <option>None</option>
                       {% for member in members %}
-                        <option>{{ member.name }}</option>
+                        <option>{{ member }}</option>
                       {% endfor %}
                     </select>
                     <br><br>
@@ -84,41 +84,22 @@
         <div id="removeModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-<<<<<<< HEAD
-                <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
-                <form action="/removeMember" method="post">
-=======
                 <h2 style="font-family : Consolas, monaco, monospace;">Enter member you would like to delete</h2>
                 <form onsubmit="return removeMember();">
->>>>>>> refs/remotes/origin/master
                     <br>
                     <label class="registerInputTitles">Name:</label>
                     <input type="name" name="deleteName" class="registerInputText" placeholder="Name">
                     <br><br>
-                    <button class="Btn" id="removeBtn">Delete Person</button>
+                    <button class="Btn" id="removeBtn">Delete Member</button>
                 </form>
             </div>
         </div>
-
-	<!-- edit modal-->
         <div id="editModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2 style="font-family : Consolas, monaco, monospace;">Edit familymember</h2>
-                <form action="/editNode" method="post">
+                <h2 style="font-family : Consolas, monaco, monospace;">Edit Family Member</h2>
+                <form onsubmit="return editMember();">
                     <br>
-<<<<<<< HEAD
-                    <label class="registerInputTitles">Name:</label>
-                    <input type="name" name="treeName" class="registerInputText" placeholder="Name">
-                    <br><br>
-                    <label class="registerInputTitles">Name change:</label>
-                    <input type="name" name="treeName" class="registerInputText" placeholder="Name">
-                    <br><br>
-                    <label class="registerInputTitles">Gender change:</label>
-                    <select>
-                        <option>Male</option>
-                        <option>Female</option>
-=======
                     <label class="registerInputTitles">Family Member to Edit:</label>
                     <select name="editName">
                       <option>None</option>
@@ -141,10 +122,9 @@
                       {% for member in members %}
                         <option>{{ member }}</option>
                       {% endfor %}
->>>>>>> refs/remotes/origin/master
                     </select>
                     <br><br>
-                    <button class="Btn" id="editBtn">Edit Person</button>
+                    <button class="Btn" id="editBtn">Update Member</button>
                 </form>
             </div>
         </div>
@@ -163,6 +143,7 @@
         var addSpan = document.getElementsByClassName("close")[0];
         addBtn.onclick = function() {
             event.preventDefault();
+            modal = document.getElementsByClassName("modal")[0];
             modal.style.display = "block";
         }
         addSpan.onclick = function() {
@@ -176,10 +157,10 @@
 
         // edit modal
         var editBtn = document.getElementById("editBtn");
-        var editSpan = document.getElementsByClassName("close")[0];
+        var editSpan = document.getElementsByClassName("close")[2];
         editBtn.onclick = function() {
             event.preventDefault();
-            modal = document.getElementsByClassName("modal")[0];
+            modal = document.getElementsByClassName("modal")[2];
             modal.style.display = "block";
         }
         editSpan.onclick = function() {
@@ -249,6 +230,22 @@
       		treeData = newData;
       		refreshGraph();
       	}
+
+        function getMembers(){
+          event.preventDefault();
+            $.ajax({
+                url: '/getMembers',
+                type: 'POST',
+                success: function(response) {
+                    console.log(response)
+                    d = JSON.parse(response)
+                    {% set members = d %}
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
 
 /*
  //http://stackoverflow.com/questions/27230293/how-to-convert-svg-to-png-using-html5-canvas-javascript-jquery-and-save-on-serve
