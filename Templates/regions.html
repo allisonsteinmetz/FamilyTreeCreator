@@ -55,7 +55,15 @@
                     <select name="mother">
                       <option>None</option>
                       {% for member in members %}
-                        <option>{{ member }}</option>
+                        <option>{{ member.name }}</option>
+                      {% endfor %}
+                    </select>
+                    <br><br>
+                    <label class="registerInputTitles">Father:</label>
+                    <select name="father">
+                      <option>None</option>
+                      {% for member in members %}
+                        <option>{{ member.name }}</option>
                       {% endfor %}
                     </select>
                     <br><br>
@@ -77,46 +85,36 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 style="font-family : Consolas, monaco, monospace;">The familyName</h2>
-                <form onsubmit="return removeMember();">
+                <form action="/removeMember" method="post">
                     <br>
                     <label class="registerInputTitles">Name:</label>
                     <input type="name" name="treeName" class="registerInputText" placeholder="Name">
                     <br><br>
-                    <button class="Btn" id="removeBtn">Delete Member</button>
+                    <button class="Btn" id="removeBtn">Delete Person</button>
                 </form>
             </div>
         </div>
+
+	<!-- edit modal-->
         <div id="editModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2 style="font-family : Consolas, monaco, monospace;">Edit Family Member</h2>
-                <form onsubmit="return editMember();">
+                <h2 style="font-family : Consolas, monaco, monospace;">Edit familymember</h2>
+                <form action="/editNode" method="post">
                     <br>
-                    <label class="registerInputTitles">Select family member:</label>
-                    <select name="editName">
-                      <option>None</option>
-                      {% for member in members %}
-                        <option>{{ member }}</option>
-                      {% endfor %}
+                    <label class="registerInputTitles">Name:</label>
+                    <input type="name" name="treeName" class="registerInputText" placeholder="Name">
+                    <br><br>
+                    <label class="registerInputTitles">Name change:</label>
+                    <input type="name" name="treeName" class="registerInputText" placeholder="Name">
+                    <br><br>
+                    <label class="registerInputTitles">Gender change:</label>
+                    <select>
+                        <option>Male</option>
+                        <option>Female</option>
                     </select>
                     <br><br>
-                    <label class="registerInputTitles">Mother:</label>
-                    <select name="editMother">
-                      <option>None</option>
-                      {% for member in members %}
-                        <option>{{ member }}</option>
-                      {% endfor %}
-                    </select>
-                    <br><br>
-                    <label class="registerInputTitles">Spouse:</label>
-                    <select name="editSpouse">
-                      <option>None</option>
-                      {% for member in members %}
-                        <option>{{ member }}</option>
-                      {% endfor %}
-                    </select>
-                    <br><br>
-                    <button class="Btn" id="editBtn">Update Member</button>
+                    <button class="Btn" id="editBtn">Edit Person</button>
                 </form>
             </div>
         </div>
@@ -135,7 +133,6 @@
         var addSpan = document.getElementsByClassName("close")[0];
         addBtn.onclick = function() {
             event.preventDefault();
-            modal = document.getElementsByClassName("modal")[0];
             modal.style.display = "block";
         }
         addSpan.onclick = function() {
@@ -149,10 +146,10 @@
 
         // edit modal
         var editBtn = document.getElementById("editBtn");
-        var editSpan = document.getElementsByClassName("close")[2];
+        var editSpan = document.getElementsByClassName("close")[0];
         editBtn.onclick = function() {
             event.preventDefault();
-            modal = document.getElementsByClassName("modal")[2];
+            modal = document.getElementsByClassName("modal")[0];
             modal.style.display = "block";
         }
         editSpan.onclick = function() {
@@ -222,22 +219,6 @@
       		treeData = newData;
       		refreshGraph();
       	}
-
-        function getMembers(){
-          event.preventDefault();
-            $.ajax({
-                url: '/getMembers',
-                type: 'POST',
-                success: function(response) {
-                    console.log(response)
-                    d = JSON.parse(response)
-                    {% set members = d %}
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        }
 
 /*
  //http://stackoverflow.com/questions/27230293/how-to-convert-svg-to-png-using-html5-canvas-javascript-jquery-and-save-on-serve

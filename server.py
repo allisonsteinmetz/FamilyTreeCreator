@@ -100,10 +100,13 @@ def addMember():
 		gender = request.form['gender']
 		name = request.form['name']
 		mother = request.form['mother']
+		father = request.form['father']
 		spouse = request.form['spouse']
 		database.insert_person(familyName, name, gender)
 		if(mother != 'None'):
 			database.update_mother(familyName, name, mother)
+		if(father != 'None'):
+			database.update_father(familyName, name, father)
 		if(spouse != 'None'):
 			database.update_spouse(familyName, name, spouse)
 		tree = TreeJSON(familyName)
