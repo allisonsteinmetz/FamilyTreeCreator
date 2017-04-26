@@ -5,6 +5,8 @@ from treehouse import TreeSQL, TreeJSON
 
 app = Flask(__name__)
 
+HOST = '127.0.0.1'
+
 loggedIn = False
 username = ''
 email = ''
@@ -141,4 +143,4 @@ def getMembers():
 	return json.dumps(memNames)
 
 if __name__ == '__main__':
-    app.run(debug=False, port = 8000)
+    app.run(debug=False, host=HOST, port = 8000)

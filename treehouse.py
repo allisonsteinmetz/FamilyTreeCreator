@@ -114,7 +114,7 @@ class TreeSQL:
 
     # Insert an entry in Treelist
     def insert_treehouse(self, email, treeName):
-        if (self.test_family(treeName) == False):
+        if (self.test_family(self.get_family_name(email, treeName)) == False):
             return
         try:
             sql_string = "INSERT INTO Treelist (email, treeName) VALUES ('%s', '%s')" % (email, treeName)
@@ -179,7 +179,7 @@ class TreeSQL:
     # Drop a family table
     # DO NOT USE outside of delete_treehouse()
     def drop_family(self, family_name):
-        sql_string = "UPDATE %s SET spouseName = NULL, motherName = NULL, fatherName = NULL"
+        sql_string = "UPDATE %s SET spouseName = NULL, motherName = NULL, fatherName = NULL" % family_name
         self.exec_change(sql_string)
         self.drop(family_name)
 
