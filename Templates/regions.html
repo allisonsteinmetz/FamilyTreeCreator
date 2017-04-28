@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="/static/regions_update.css">
         <link rel="stylesheet" type="text/css" href="/static/ModelBox.css">				<!-- change back to "/static/ModelBox.css" -->
         <script src="static/regions.js"></script>
+        <script src="static/downloadSVG.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     </head>
     <body>
@@ -170,6 +171,11 @@
         }
         removeSpan.onclick = function() {
             modal.style.display = "none";
+        }
+
+        downloadBtn.onclick = function() {
+          event.preventDefault();
+          downloadSVG();
         }
 
 	      //Sets data for initial tree to be drawn.
