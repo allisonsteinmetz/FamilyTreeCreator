@@ -225,6 +225,22 @@ class TreeSQL:
 
         return members
 
+    # Select person from family
+    def select_person(self, family_name, person_name):
+        sql_string = "SELECT spouseName, motherName, fatherName, gender FROM %s WHERE name = '%s' " % (family_name, person_name)
+        self.cursor.execute(sql_string)
+
+        person = FamilyMember()
+        person.name = person_name
+        for spouseName, motherName, fatherName, gender in self.cursor:
+            person.spouseName = spouseName
+            person.motherName = motherName
+            person.fatherName = fatherName
+            person.gender = gender
+
+        person.children = self.get_children(family_name, person.children)
+
+        return person
 
     # Get the gender of a person
     def get_gender(self, familyName, personName):
@@ -290,14 +306,36 @@ class TreeSQL:
         sql_string = "UPDATE %s SET motherName = '%s' WHERE name = '%s'" % (family_name, mother_name, name)
         self.exec_change(sql_string)
 
-
     # Update the father for a person in the family
     def update_father(self, family_name, name, father_name):
         sql_string = "UPDATE %s SET fatherName = '%s' WHERE name = '%s'" % (family_name, father_name, name)
         self.exec_change(sql_string)
 
+    # Update a person's name
+    def update_name(self, family_name, name, new_name):
+        oldPerson = self.select_person(family_name, name)
+        self.insert_person(family_name, new_name, oldPerson.gender)
+        #self.update_spouse(family_name, new_name, oldPerson.spouseName)
+        if (oldPerson.fatherName is not None):
+            self.update_father(family_name, new_name, oldPerson.fatherName)
+        if (oldPerson.motherName is not None):
+            print "MOTHER IS %s" % oldPerson.motherName
+            self.update_mother(family_name, new_name, oldPerson.motherName)
+        if (oldPerson.spouseName is not None):
+            self.update_spouse(family_name, new_name, oldPerson.spouseName)
 
+        sql_string = "UPDATE %s SET motherName = '%s' WHERE motherName = '%s' " % (family_name, new_name, name)
+        self.exec_change(sql_string)
+        sql_string = "UPDATE %s SET fatherName = '%s' WHERE fatherName = '%s' " % (family_name, new_name, name)
+        self.exec_change(sql_string)
 
+        sql_string = "DELETE FROM %s WHERE name = '%s'" % (family_name, name)
+        self.exec_change(sql_string)
+
+    #Update a person's gender
+    def update_gender(self, family_name, name, new_gender):
+        sql_string = "UPDATE %s SET gender = '%s' WHERE name = '%s'" % (family_name, new_gender, name)
+        self.exec_change(sql_string)
 
 
 # JSON generating class
@@ -333,14 +371,15 @@ class TreeJSON:
         # Find the first topmost node in all other cases
         else:
             for row in self.entries:
-                if row.spouseName == "None" and row.motherName == "None" and row.fatherName == "None":
-                    self.globalRootNode = row
-                    self.found_root = True
-                elif row.spouseName != "None":
-                    spouse = self.find_family_member(row.spouseName)
-                    if (spouse.fatherName == "None" and spouse.motherName == "None"):
+                if row.motherName == "None" and row.fatherName == "None":
+                    if row.spouseName == "None":
                         self.globalRootNode = row
                         self.found_root = True
+                    else:
+                        spouse = self.find_family_member(row.spouseName)
+                        if (spouse.fatherName == "None" and spouse.motherName == "None"):
+                            self.globalRootNode = row
+                            self.found_root = True
 
 
     # Build the tree string recursively
@@ -391,6 +430,7 @@ class TreeJSON:
             self.globalRootNode = FamilyMember()
 
         return finalString
+
 
     # Return a JSON string from the treehouse
     # CALL THIS ONE

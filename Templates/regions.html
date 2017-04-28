@@ -108,20 +108,13 @@
                       {% endfor %}
                     </select>
                     <br><br>
-                    <label class="registerInputTitles">New Mother:</label>
-                    <select name="editMother">
-                      <option>None</option>
-                      {% for member in members %}
-                        <option>{{ member }}</option>
-                      {% endfor %}
-                    </select>
+                    <label class="registerInputTitles">Edit name:</label>
+                    <input type="name" name="newName" class="registerInputText" placeholder="Name">
                     <br><br>
-                    <label class="registerInputTitles">New Spouse:</label>
-                    <select name="editSpouse">
-                      <option>None</option>
-                      {% for member in members %}
-                        <option>{{ member }}</option>
-                      {% endfor %}
+                    <label class="registerInputTitles">Edit gender:</label>
+                    <select name="newGender">
+                        <option>Male</option>
+                        <option>Female</option>
                     </select>
                     <br><br>
                     <button class="Btn" id="editBtn">Update Member</button>
@@ -182,11 +175,7 @@
 	      //Sets data for initial tree to be drawn.
         var familyGraph = {{familyGraph|tojson|safe}}
 
-        treeData =
-        [{ name: "Father",
-                "class": "man",
-                marriages: [{"spouse": { "name": "Mother", "class": "woman",}, "children": [{  "name": "Child", "class": "man",}]}]
-        }]
+        treeData = []
 
       	//Is called to draw initial tree.
       	drawGraph(familyGraph)

@@ -117,12 +117,8 @@ def addMember():
 def editMember():
 	if request.method == 'POST':
 		name = request.form['editName']
-		mother = request.form['editMother']
-		spouse = request.form['editSpouse']
-		if(mother != 'None'):
-			database.update_mother(familyName, name, mother)
-		if(spouse != 'None'):
-			database.update_spouse(familyName, name, spouse)
+		newName = request.form['newName']
+		newGender = request.form['newGender']
 		tree = TreeJSON(familyName)
 		return json.dumps(tree.get_JSON())
 
